@@ -1,0 +1,125 @@
+/* The About page. */
+
+:root {
+  --bg: #111113;
+  --text: #c9c9c6;
+  --muted: #8b8c8f;
+  --strong: #eeeeec;
+  --focus: #6f93ff;
+  --font: 'Instrument Sans', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font: 400 17px/1.7 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--strong);
+  text-decoration-color: var(--muted);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: var(--strong);
+}
+
+/* Matches the title on the home page. */
+.site {
+  padding: 22px 24px;
+}
+
+.site .home {
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--strong);
+  text-decoration: none;
+}
+
+article {
+  max-width: 66ch;
+  margin: 0 auto;
+  padding: 48px 20px 96px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.12;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--strong);
+  text-wrap: balance;
+}
+
+.meta {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.lede {
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--strong);
+}
+
+h2 {
+  margin: 48px 0 8px;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--strong);
+}
+
+p,
+ul {
+  margin: 0 0 18px;
+}
+
+li + li {
+  margin-top: 6px;
+}
+
+.back {
+  margin-top: 64px;
+}
+
+.back a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back a:hover {
+  color: var(--strong);
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
+
+  .site {
+    padding: 18px 16px;
+  }
+
+  article {
+    padding-top: 24px;
+  }
+}

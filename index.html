@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Asaro Head – Free 3D Planes of the Head for Drawing Reference</title>
+    <meta
+      name="description"
+      content="Turn and light a 3D Asaro head in your browser. A free planes-of-the-head model for practising light, shadow and form in portrait drawing."
+    />
+    <link rel="canonical" href="__SITE_URL__/" />
+    <meta name="theme-color" content="#111113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Asaro Head" />
+    <meta property="og:title" content="Asaro Head – free 3D planes of the head" />
+    <meta property="og:description" content="Turn the head, move the light, and draw. A free 3D Asaro head for portrait practice." />
+    <meta property="og:url" content="__SITE_URL__/" />
+    <meta property="og:image" content="__SITE_URL__/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A 3D Asaro planar head lit from the upper left on a dark background." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Asaro Head",
+        "url": "__SITE_URL__/",
+        "description": "A free 3D Asaro head (planes of the head) you can turn and light in the browser, for drawing and painting reference.",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <canvas id="view" aria-label="3D Asaro head. Drag to turn, scroll to zoom."></canvas>
+
+      <header class="brand">
+        <h1>Asaro head</h1>
+        <p class="tagline">Free 3D planes of the head for drawing reference.</p>
+        <nav class="links" aria-label="Site">
+          <a href="/about/">About</a>
+        </nav>
+      </header>
+
+      <canvas
+        id="light-ball"
+        class="light-ball"
+        width="176"
+        height="176"
+        tabindex="0"
+        role="slider"
+        title="Drag to move the light"
+        aria-label="Light direction. Drag the bright spot, or use the arrow keys. The outer ring puts the light behind the head."
+      ></canvas>
+
+      <div class="status" id="status" role="status">Loading model…</div>
+
+      <footer class="credit">
+        Model: <a href="https://www.thingiverse.com/thing:7287701" target="_blank" rel="noopener">Asaro Head</a>
+        by AgentSCAD,
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA</a>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
