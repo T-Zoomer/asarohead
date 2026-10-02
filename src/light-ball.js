@@ -83,7 +83,7 @@ export function createLightBall(canvas, { onChange }) {
     ctx.fillStyle = behind ? 'rgba(224, 165, 38, 0.5)' : '#e0a526';
     ctx.fill();
     ctx.lineWidth = 2.5;
-    ctx.strokeStyle = '#4a4b4f';
+    ctx.strokeStyle = '#111113';
     ctx.stroke();
     ctx.restore();
   }
