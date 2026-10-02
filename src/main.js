@@ -14,7 +14,7 @@ const START_VIEW = { az: 40, el: 6 };
 // Starting light, relative to the camera: up and to the viewer's left.
 const START_LIGHT = { az: -45, el: 40 };
 
-const BACKGROUND = 0x111113;
+const BACKGROUND = 0x4a4b4f;
 const LENS_MM = 85;
 
 function dirFromAngles(az, el, out = new THREE.Vector3()) {
