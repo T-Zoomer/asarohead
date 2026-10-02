@@ -72,7 +72,7 @@ const head = { mesh: null, center: new THREE.Vector3(0, 1, 0) };
 const light = new THREE.Vector3(); // world-space direction toward the key light
 
 new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(
-  '/models/asaro-head.glb',
+  `${import.meta.env.BASE_URL}models/asaro-head.glb`,
   (gltf) => {
     let source;
     gltf.scene.traverse((o) => o.isMesh && (source ??= o));

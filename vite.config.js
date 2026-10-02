@@ -27,7 +27,12 @@ function seo() {
   };
 }
 
+// The path the site is served under. GitHub Pages project sites live at
+// /<repo>/, so the deploy workflow sets BASE_PATH=/asarohead/.
+const BASE_PATH = process.env.BASE_PATH ?? '/';
+
 export default defineConfig({
+  base: BASE_PATH,
   plugins: [seo()],
   build: {
     // three.js is most of the bundle and loads as one chunk by design.
