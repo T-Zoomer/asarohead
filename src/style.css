@@ -105,7 +105,7 @@ body {
   appearance: none;
   -webkit-appearance: none;
   width: 14px;
-  height: 84px;
+  height: 56px;
   margin: 0;
   background: none;
   cursor: pointer;
@@ -194,7 +194,7 @@ body {
   }
 
   .bg-slider {
-    height: 72px;
+    height: 48px;
   }
 
 
