@@ -35,6 +35,13 @@ const SCANS = {
     rotate: ([x, y, z]) => [x, -y, -z],
     height: 3,
   },
+  'john-baptist': {
+    // https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/
+    src: 'John_the_Baptist.obj',
+    // Z-up (the platter lies on z = 0) with the face toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 1.2,
+  },
 };
 
 const SRC_DIR = new URL('../3d_model files/', import.meta.url);

@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createLightBall } from './light-ball.js';
 import { SITE_NAME, modelById } from './models.js';
 
@@ -45,11 +46,18 @@ controls.maxDistance = 60;
 camera.position.set(0, 1, 12);
 controls.target.set(0, 1, 0);
 
-// Distance that frames the whole head. Narrow (portrait) screens back off so
-// the head fits the width too.
+// Distance that frames the whole model: its height fills 60% of the view
+// and its widest side (x or z, since it turns) at most 85% of the width, so
+// tall figures and wide, low pieces both fit on any screen shape. Seen from
+// a little above, a wide piece looks taller than it is, so its height counts
+// as at least 0.75 of its width; upright models are taller than that anyway.
 // ?zoom=1.5 starts closer; the thumbnail script uses it to fill the frame.
 const ZOOM = Number(new URLSearchParams(location.search).get('zoom')) || 1;
-const frameDistance = () => (LENS_MM * 0.125 * head.scale * Math.max(1, 0.55 / camera.aspect)) / ZOOM;
+function frameDistance() {
+  const width = Math.max(head.size.x, head.size.z);
+  const viewHeight = Math.max(Math.max(head.size.y, 0.75 * width) / 0.6, width / (0.85 * camera.aspect));
+  return viewHeight / (2 * Math.tan((camera.fov / 2) * DEG)) / ZOOM;
+}
 
 const hemi = new THREE.HemisphereLight(0xffffff, 0x8d8b88, 0.3);
 scene.add(hemi);
@@ -66,7 +74,22 @@ scene.add(key, key.target);
 const fill = new THREE.DirectionalLight(0xe4ebff, 0.15);
 scene.add(fill, fill.target);
 
-const plaster = new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.86, metalness: 0 });
+// Materials. Plaster is fully matte, so each Asaro plane reads as one flat
+// value. Marble is whiter with a soft sheen: a polished-stone highlight and
+// faint reflections of a neutral studio, kept low so values stay readable.
+const studio = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const MATERIALS = {
+  plaster: new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.86, metalness: 0 }),
+  marble: new THREE.MeshPhysicalMaterial({
+    color: 0xf2f0ea,
+    roughness: 0.42,
+    metalness: 0,
+    envMap: studio,
+    envMapIntensity: 0.1,
+    clearcoat: 0.25,
+    clearcoatRoughness: 0.35,
+  }),
+};
 
 // ---------------------------------------------------------------------------
 // Model
@@ -78,10 +101,10 @@ const plaster = new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.8
 const model = modelById(new URLSearchParams(location.search).get('m'));
 if (!model) location.replace('../');
 
-// The Asaro head is the reference size: the camera frames it at frameDistance().
-const REFERENCE_HEIGHT = 1.78;
+// The Asaro head is the reference size for lights, shadows and zoom limits.
+const REFERENCE_SIZE = 1.78;
 
-const head = { mesh: null, center: new THREE.Vector3(0, 1, 0), scale: 1 };
+const head = { mesh: null, center: new THREE.Vector3(0, 1, 0), size: new THREE.Vector3(1, 1.78, 1), scale: 1 };
 const light = new THREE.Vector3(); // world-space direction toward the key light
 
 if (model) {
@@ -102,7 +125,7 @@ if (model) {
       let geometry = source.geometry;
       if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
       else if (!geometry.attributes.normal) geometry.computeVertexNormals();
-      head.mesh = new THREE.Mesh(geometry, plaster);
+      head.mesh = new THREE.Mesh(geometry, MATERIALS[model.material ?? 'marble']);
       // Quantized glTF positions carry their real scale and offset on the node.
       gltf.scene.updateMatrixWorld(true);
       head.mesh.applyMatrix4(source.matrixWorld);
@@ -110,9 +133,9 @@ if (model) {
       scene.add(head.mesh);
 
       const box = new THREE.Box3().setFromObject(head.mesh);
-      const size = box.getSize(new THREE.Vector3());
+      const size = box.getSize(head.size);
       box.getCenter(head.center);
-      head.scale = size.y / REFERENCE_HEIGHT;
+      head.scale = Math.max(size.x, size.y, size.z) / REFERENCE_SIZE;
       key.target.position.copy(head.center);
       fill.target.position.copy(head.center);
       const r = 0.8 * Math.max(size.x, size.y, size.z);
@@ -123,9 +146,10 @@ if (model) {
 
       resize();
       controls.target.copy(head.center);
-      camera.position.copy(head.center).addScaledVector(dirFromAngles(START_VIEW.az, START_VIEW.el), frameDistance());
+      const view = { ...START_VIEW, ...model.view };
+      camera.position.copy(head.center).addScaledVector(dirFromAngles(view.az, view.el), frameDistance());
       controls.update();
-      dirFromAngles(START_VIEW.az + START_LIGHT.az, START_LIGHT.el, light);
+      dirFromAngles(view.az + START_LIGHT.az, START_LIGHT.el, light);
       $('status').textContent = '';
     },
     undefined,

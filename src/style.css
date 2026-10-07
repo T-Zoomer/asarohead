@@ -49,6 +49,8 @@ body {
   position: absolute;
   top: 22px;
   left: 24px;
+  /* Long titles wrap before they reach the light ball. */
+  max-width: calc(100% - 24px - 140px);
 }
 
 .brand h1 {
@@ -174,6 +176,11 @@ body {
   .brand {
     top: 18px;
     left: 16px;
+    max-width: calc(100% - 16px - 112px);
+  }
+
+  .brand h1 {
+    font-size: 22px;
   }
 
   .controls {

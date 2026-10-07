@@ -54,3 +54,4 @@ their full resolution, with smooth normals computed from the full mesh.
 | --- | --- | --- | --- |
 | [Napoléon Ier](https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/), François Joseph Bosio | `NAPOLEON_fix.OBJ` | 990k | 5.6 MB |
 | [Nymph Preparing for the Bath](https://threedscans.com/lincoln/nymph/), John Gibson | `Nymph_Preparing_For_The_Bath.stl` | 533k | 3.2 MB |
+| [Head of Saint John the Baptist on a Platter](https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/), 1430 | `John_the_Baptist.obj` | 1.5M | 8.7 MB |

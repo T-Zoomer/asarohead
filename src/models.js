@@ -2,6 +2,8 @@
 // built from this list, so adding a model means adding an entry here, its GLB
 // in public/models/ and a thumbnail in public/thumbs/ (npm run thumbs).
 //
+// material: 'marble' (default) or 'plaster' (fully matte).
+// view: starting camera angle { az, el } in degrees, if the default doesn't suit.
 // thumbZoom: how much closer the thumbnail camera starts than the viewer's.
 // crease: angle in degrees at which normals split into hard edges. The Asaro
 // head uses it to keep its planes flat; scans leave it out and shade smoothly.
@@ -16,6 +18,7 @@ export const MODELS = [
     kind: 'Planes of the head',
     blurb: 'A head simplified into flat planes, for learning how light turns across a face.',
     file: 'asaro-head.glb',
+    material: 'plaster',
     thumbZoom: 1.1,
     crease: 28,
     credit:
@@ -45,6 +48,18 @@ export const MODELS = [
     credit:
       '<a href="https://threedscans.com/lincoln/nymph/" target="_blank" rel="noopener">Nymph Preparing for the Bath</a> ' +
       'by John Gibson, The Usher Gallery, Lincoln. Scan: Three D Scans',
+  },
+  {
+    id: 'john-baptist',
+    title: 'Head of Saint John the Baptist on a Platter',
+    artist: 'Unknown carver, 1430',
+    kind: 'Carved head',
+    blurb: 'An oak head on a platter, with deep, wavy hair and a gaunt, expressive face.',
+    file: 'john-baptist.glb',
+    view: { az: 30, el: 20 },
+    credit:
+      '<a href="https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/" target="_blank" rel="noopener">Head of Saint John the Baptist on a Platter</a> ' +
+      '(1430, oak), Bode Museum, Berlin. Scan: Three D Scans',
   },
 ];
 
