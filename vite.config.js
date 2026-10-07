@@ -18,7 +18,6 @@ function galleryHtml() {
           <a class="card" href="view/?m=${m.id}">
             <div class="thumb"><img src="thumbs/${m.id}.webp" alt="" width="600" height="600" loading="lazy" /></div>
             <h2>${escape(m.title)}</h2>
-            <p>${escape(m.artist)}</p>
           </a>
         </li>`,
   ).join('\n        ');

@@ -75,8 +75,8 @@ main {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px 20px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -105,20 +105,32 @@ main {
 }
 
 .card h2 {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
+  text-align: center;
+  text-wrap: balance;
   font-size: 16px;
   font-weight: 500;
   color: var(--strong);
 }
 
-.card p {
-  margin: 2px 0 0;
-}
 
 .site-footer {
   padding: 24px 24px 32px;
   font-size: 12px;
   opacity: 0.7;
+}
+
+/* Five in a row on wide screens, fewer as the screen narrows. */
+@media (max-width: 1100px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
@@ -139,9 +151,6 @@ main {
     font-size: 14px;
   }
 
-  .card p {
-    font-size: 12px;
-  }
 
   .site-footer {
     padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
