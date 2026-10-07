@@ -42,4 +42,4 @@ scanned by [Three D Scans](https://threedscans.com/nouveau-musee-national-de-mon
 which publishes its scans free to use without copyright restrictions. The
 42 MB source OBJ isn't in git: download it into `3d_model files/NAPOLEON_fix.OBJ`
 and run `npm run convert:napoleon` to rebuild `public/models/napoleon.glb`
-(about 1M -> 300k triangles, 1.8 MB, with normals from the full scan).
+(the full 1M triangles, 5.6 MB, about 4 MB gzipped).

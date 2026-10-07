@@ -17,7 +17,7 @@ import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 const SRC = new URL('../3d_model files/NAPOLEON_fix.OBJ', import.meta.url);
 const OUT = new URL('../public/models/napoleon.glb', import.meta.url);
 const HEIGHT = 2.4; // units, base of the bust to the top of the head
-const TARGET_TRIS = 300000;
+const TARGET_TRIS = Infinity; // keep the full scan; set a number to simplify
 
 const verts = [];
 const faces = [];
@@ -78,7 +78,9 @@ await MeshoptSimplifier.ready;
 await MeshoptEncoder.ready;
 await doc.transform(
   weld(),
-  simplify({ simplifier: MeshoptSimplifier, ratio: TARGET_TRIS / (faces.length / 3), error: 0.01 }),
+  ...(TARGET_TRIS < faces.length / 3
+    ? [simplify({ simplifier: MeshoptSimplifier, ratio: TARGET_TRIS / (faces.length / 3), error: 0.01 })]
+    : []),
   dedup(),
   prune(),
   meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
