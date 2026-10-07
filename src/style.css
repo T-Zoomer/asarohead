@@ -6,6 +6,8 @@
   --ring: rgba(255, 255, 255, 0.18);
   --focus: #6f93ff;
   --font: 'Instrument Sans', system-ui, sans-serif;
+  /* Cinzel (Roman inscription capitals) for the names of the casts. */
+  --inscription: 'Cinzel', Georgia, serif;
 }
 
 /* On a light background, text and outlines turn dark. */
@@ -62,10 +64,11 @@ body {
 
 .brand h1 {
   margin: 0;
+  font-family: var(--inscription);
   font-size: 26px;
-  line-height: 1.2;
+  line-height: 1.25;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.03em;
   color: var(--text-strong);
 }
 
@@ -187,7 +190,7 @@ body {
   }
 
   .brand h1 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .controls {
