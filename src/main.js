@@ -69,8 +69,8 @@ const plaster = new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.8
 // Models
 //
 // Each model is a GLB in public/models/. The crease angle splits normals
-// where neighbouring faces turn sharply: low keeps the Asaro planes flat with
-// hard edges, high lets a sculpted surface shade smoothly.
+// where neighbouring faces turn sharply, which keeps the Asaro planes flat
+// with hard edges. Without one, a sculpted surface shades smoothly.
 
 const MODELS = {
   asaro: {
@@ -82,7 +82,6 @@ const MODELS = {
   },
   napoleon: {
     file: 'napoleon.glb',
-    crease: 60,
     credit:
       '<a href="https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/" target="_blank" rel="noopener">Napoléon Ier</a> ' +
       'by François Joseph Bosio, Nouveau Musée National de Monaco. Scan: Three D Scans',
@@ -103,7 +102,10 @@ function loadModel(name) {
   return loader.loadAsync(`${import.meta.env.BASE_URL}models/${model.file}`).then((gltf) => {
     let source;
     gltf.scene.traverse((o) => o.isMesh && (source ??= o));
-    const mesh = new THREE.Mesh(toCreasedNormals(source.geometry, model.crease * DEG), plaster);
+    let geometry = source.geometry;
+    if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
+    else if (!geometry.attributes.normal) geometry.computeVertexNormals();
+    const mesh = new THREE.Mesh(geometry, plaster);
     // Quantized glTF positions carry their real scale and offset on the node.
     gltf.scene.updateMatrixWorld(true);
     mesh.applyMatrix4(source.matrixWorld);

@@ -16,8 +16,8 @@ import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 
 const SRC = new URL('../3d_model files/NAPOLEON_fix.OBJ', import.meta.url);
 const OUT = new URL('../public/models/napoleon.glb', import.meta.url);
-const HEIGHT = 2.4; // units, base of the pillar to the top of the head
-const TARGET_TRIS = 60000;
+const HEIGHT = 2.4; // units, base of the bust to the top of the head
+const TARGET_TRIS = 300000;
 
 const verts = [];
 const faces = [];
@@ -46,12 +46,31 @@ verts.forEach((v, i) => {
   for (let k = 0; k < 3; k++) positions[i * 3 + k] = (v[k] + offset[k]) * scale;
 });
 
+// Smooth normals from the full-resolution scan. simplify() keeps a subset of
+// the original vertices, so they carry these normals with them and the
+// simplified mesh shades like the original instead of showing its coarser
+// triangles.
+const normals = new Float32Array(positions.length);
+for (let f = 0; f < faces.length; f += 3) {
+  const [a, b, c] = [faces[f] * 3, faces[f + 1] * 3, faces[f + 2] * 3];
+  const e1 = [positions[b] - positions[a], positions[b + 1] - positions[a + 1], positions[b + 2] - positions[a + 2]];
+  const e2 = [positions[c] - positions[a], positions[c + 1] - positions[a + 1], positions[c + 2] - positions[a + 2]];
+  // Cross product, unnormalized, so larger faces count for more.
+  const n = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]];
+  for (const v of [a, b, c]) for (let k = 0; k < 3; k++) normals[v + k] += n[k];
+}
+for (let i = 0; i < normals.length; i += 3) {
+  const len = Math.hypot(normals[i], normals[i + 1], normals[i + 2]) || 1;
+  for (let k = 0; k < 3; k++) normals[i + k] /= len;
+}
+
 const doc = new Document();
 const buffer = doc.createBuffer();
 const position = doc.createAccessor().setType('VEC3').setArray(positions).setBuffer(buffer);
+const normal = doc.createAccessor().setType('VEC3').setArray(normals).setBuffer(buffer);
 const indices = doc.createAccessor().setType('SCALAR').setArray(new Uint32Array(faces)).setBuffer(buffer);
 const material = doc.createMaterial('marble').setBaseColorFactor([0.9, 0.9, 0.88, 1]).setRoughnessFactor(0.9);
-const prim = doc.createPrimitive().setAttribute('POSITION', position).setIndices(indices).setMaterial(material);
+const prim = doc.createPrimitive().setAttribute('POSITION', position).setAttribute('NORMAL', normal).setIndices(indices).setMaterial(material);
 const mesh = doc.createMesh('Napoleon').addPrimitive(prim);
 doc.createScene().addChild(doc.createNode('Napoleon').setMesh(mesh));
 
