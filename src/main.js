@@ -80,9 +80,9 @@ scene.add(fill, fill.target);
 // shadows stay deep and values stay readable.
 const studio = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
 const marble = new THREE.MeshPhysicalMaterial({
-  // Statuario: the creamy white Carrara grade of the finest figure sculpture.
-  // Kept below pure white so the brightest planes still separate.
-  color: 0xf3efe6,
+  // Carrara: the faintly cool gray-white of fresh-cut marble. Kept below
+  // pure white so the brightest planes still separate.
+  color: 0xedf0f1,
   roughness: 0.42,
   metalness: 0,
   envMap: studio,
