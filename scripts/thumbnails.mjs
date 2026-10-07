@@ -26,7 +26,7 @@ const page = await browser.newPage({ viewport: { width: SIZE, height: SIZE } });
 const ids = process.argv.slice(2);
 for (const model of MODELS.filter((m) => !ids.length || ids.includes(m.id))) {
   await page.goto(`${base}view/?m=${model.id}&zoom=${model.thumbZoom ?? 1}`);
-  await page.addStyleTag({ content: '.brand, .light-ball, .credit, .status { display: none !important; }' });
+  await page.addStyleTag({ content: '.brand, .controls, .credit, .status { display: none !important; }' });
   await page.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 120000 });
   await page.waitForTimeout(1000); // let the orbit damping settle
   const path = new URL(`${model.id}.jpg`, OUT).pathname;

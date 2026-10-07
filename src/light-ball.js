@@ -67,7 +67,9 @@ export function createLightBall(canvas, { onChange }) {
     // "behind" ring
     ctx.save();
     ctx.translate(half, half);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    // Colors follow the page background (see the background slider).
+    const style = getComputedStyle(canvas);
+    ctx.strokeStyle = style.getPropertyValue('--ring');
     ctx.setLineDash([3, 5]);
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -83,7 +85,7 @@ export function createLightBall(canvas, { onChange }) {
     ctx.fillStyle = behind ? 'rgba(224, 165, 38, 0.5)' : '#e0a526';
     ctx.fill();
     ctx.lineWidth = 2.5;
-    ctx.strokeStyle = '#111113';
+    ctx.strokeStyle = style.getPropertyValue('--bg');
     ctx.stroke();
     ctx.restore();
   }
@@ -132,6 +134,8 @@ export function createLightBall(canvas, { onChange }) {
   });
 
   return {
+    /** Redraw, e.g. after the page colors change. */
+    redraw: draw,
     /** Update the display without firing onChange (e.g. when the camera moves). */
     set(viewDir) {
       if (viewDir.every((v, i) => Math.abs(v - dir[i]) < 1e-4)) return;

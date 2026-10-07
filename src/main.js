@@ -148,6 +148,40 @@ const lightBall = createLightBall($('light-ball'), {
   },
 });
 
+// ---------------------------------------------------------------------------
+// Background
+//
+// The slider blends the background from near-black to light gray. Text and
+// the light ball's outlines switch to dark once the background is light.
+
+// Blend in sRGB, so the slider steps look even.
+const BG_DARK = [0x11, 0x11, 0x13];
+const BG_LIGHT = [0xe4, 0xe4, 0xe1];
+const bgSlider = $('bg');
+
+function setBackground(t) {
+  const css = `rgb(${BG_DARK.map((d, i) => Math.round(d + (BG_LIGHT[i] - d) * t)).join(', ')})`;
+  scene.background.setStyle(css);
+  const root = document.documentElement.style;
+  const light = t > 0.45;
+  root.setProperty('--bg', css);
+  root.setProperty('--text', light ? '#3d3e42' : '#8b8c8f');
+  root.setProperty('--text-strong', light ? '#111113' : '#e9e9e7');
+  root.setProperty('--ring', light ? 'rgba(0, 0, 0, 0.25)' : 'rgba(255, 255, 255, 0.18)');
+  lightBall.redraw();
+}
+
+bgSlider.addEventListener('input', () => {
+  setBackground(bgSlider.value / 100);
+  try {
+    localStorage.setItem('background', bgSlider.value);
+  } catch {}
+});
+try {
+  bgSlider.value = localStorage.getItem('background') ?? 0;
+} catch {}
+setBackground(bgSlider.value / 100);
+
 const toCam = new THREE.Vector3();
 const inverseCam = new THREE.Quaternion();
 function updateLights() {
