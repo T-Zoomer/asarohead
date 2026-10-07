@@ -50,6 +50,24 @@
           title="Background brightness"
           aria-label="Background brightness"
         />
+        <button
+          id="recenter"
+          class="tool"
+          type="button"
+          aria-pressed="false"
+          title="Recenter: click a part of the model to turn and zoom around it (or double-click it)"
+          aria-label="Recenter on a part of the model"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="6" />
+            <path d="M12 2v5M12 17v5M2 12h5M17 12h5" />
+          </svg>
+        </button>
+        <button id="reset-view" class="tool" type="button" title="Reset view to the whole model" aria-label="Reset view">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9V4h5M20 15v5h-5M4 4l6 6M20 20l-6-6" />
+          </svg>
+        </button>
       </div>
 
       <div class="status" id="status" role="status">Loading model…</div>

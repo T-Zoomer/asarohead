@@ -157,6 +157,40 @@ body {
   outline-offset: 2px;
 }
 
+.tool {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--ring);
+  border-radius: 50%;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tool svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tool:hover,
+.tool[aria-pressed='true'] {
+  border-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+/* While the recenter tool is armed, the model shows a crosshair. */
+.picking #view {
+  cursor: crosshair;
+}
+
 .status {
   position: absolute;
   inset: 0;

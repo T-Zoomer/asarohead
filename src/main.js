@@ -141,7 +141,10 @@ if (model) {
       const r = 0.8 * Math.max(size.x, size.y, size.z);
       Object.assign(key.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 12 * head.scale });
       key.shadow.camera.updateProjectionMatrix();
-      controls.minDistance = 0.75 * head.scale;
+      // Close enough for a foot or an eye to fill the view once recentered.
+      controls.minDistance = 0.15 * head.scale;
+      camera.near = 0.01 * head.scale;
+      camera.updateProjectionMatrix();
       controls.maxDistance = 60 * head.scale;
 
       resize();
@@ -186,6 +189,78 @@ bgSlider.addEventListener('input', () => {
   lightBall.redraw();
 });
 
+// ---------------------------------------------------------------------------
+// Recenter
+//
+// Pick a point on the model and the camera glides so that point becomes the
+// center to turn and zoom around: arm the tool and click, or double-click
+// (double-tap) the model. Reset glides back to the whole model. Only the
+// camera moves; the light stays fixed to the model.
+
+const recenterButton = $('recenter');
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let flight = null;
+
+// Glide the orbit center to target, moving the camera by the same amount
+// (or to cameraTo, if given) so the view keeps its angle.
+function flyTo(target, cameraTo = camera.position.clone().add(target.clone().sub(controls.target))) {
+  flight = { t0: controls.target.clone(), c0: camera.position.clone(), t1: target, c1: cameraTo, start: performance.now() };
+}
+
+function stepFlight() {
+  if (!flight) return;
+  const k = Math.min(1, (performance.now() - flight.start) / 450);
+  const ease = 1 - (1 - k) ** 3;
+  controls.target.lerpVectors(flight.t0, flight.t1, ease);
+  camera.position.lerpVectors(flight.c0, flight.c1, ease);
+  if (k === 1) flight = null;
+}
+
+function pickCenter(event) {
+  if (!head.mesh) return false;
+  const rect = canvas.getBoundingClientRect();
+  pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObject(head.mesh, false)[0];
+  if (hit) flyTo(hit.point);
+  return Boolean(hit);
+}
+
+function armRecenter(on) {
+  recenterButton.setAttribute('aria-pressed', String(on));
+  document.body.classList.toggle('picking', on);
+}
+
+recenterButton.addEventListener('click', () => armRecenter(recenterButton.getAttribute('aria-pressed') !== 'true'));
+window.addEventListener('keydown', (e) => e.key === 'Escape' && armRecenter(false));
+
+$('reset-view').addEventListener('click', () => {
+  armRecenter(false);
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  flyTo(head.center.clone(), head.center.clone().addScaledVector(dir, frameDistance()));
+});
+
+// A click is a press and release without dragging. Tell clicks from orbit
+// drags, and two clicks close together from single ones.
+let down = null;
+let lastClick = null;
+canvas.addEventListener('pointerdown', (e) => {
+  down = { x: e.clientX, y: e.clientY };
+});
+canvas.addEventListener('pointerup', (e) => {
+  if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) return;
+  const now = performance.now();
+  const armed = recenterButton.getAttribute('aria-pressed') === 'true';
+  const double = lastClick && now - lastClick.time < 350 && Math.hypot(e.clientX - lastClick.x, e.clientY - lastClick.y) < 20;
+  if ((armed || double) && pickCenter(e)) {
+    armRecenter(false);
+    lastClick = null;
+  } else {
+    lastClick = { time: now, x: e.clientX, y: e.clientY };
+  }
+});
+
 const toCam = new THREE.Vector3();
 const inverseCam = new THREE.Quaternion();
 function updateLights() {
@@ -212,6 +287,7 @@ new ResizeObserver(resize).observe(canvas);
 
 resize();
 renderer.setAnimationLoop(() => {
+  stepFlight();
   controls.update();
   updateLights();
   renderer.render(scene, camera);
