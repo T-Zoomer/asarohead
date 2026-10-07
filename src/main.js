@@ -63,7 +63,7 @@ function frameDistance() {
 const hemi = new THREE.HemisphereLight(0xffffff, 0x8d8b88, 0.3);
 scene.add(hemi);
 
-const key = new THREE.DirectionalLight(0xfffcf8, 1.7);
+const key = new THREE.DirectionalLight(0xffffff, 1.7);
 key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048);
 key.shadow.bias = -0.0004;
