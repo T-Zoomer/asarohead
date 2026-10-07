@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>3D viewer – Cast Room</title>
+    <meta
+      name="description"
+      content="Turn and light a 3D sculpture in your browser, for drawing and painting reference."
+    />
+    <meta name="theme-color" content="#111113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <canvas id="view" aria-label="3D model. Drag to turn, scroll to zoom."></canvas>
+
+      <header class="brand">
+        <a class="back" href="../"><span aria-hidden="true">←</span> All models</a>
+        <h1 id="title">&nbsp;</h1>
+        <p class="tagline" id="artist">&nbsp;</p>
+      </header>
+
+      <canvas
+        id="light-ball"
+        class="light-ball"
+        width="176"
+        height="176"
+        tabindex="0"
+        role="slider"
+        title="Drag to move the light"
+        aria-label="Light direction. Drag the bright spot, or use the arrow keys. The outer ring puts the light behind the model."
+      ></canvas>
+
+      <div class="status" id="status" role="status">Loading model…</div>
+
+      <footer class="credit" id="credit"></footer>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightBall } from './light-ball.js';
+import { SITE_NAME, modelById } from './models.js';
 
 const DEG = Math.PI / 180;
 const $ = (id) => document.getElementById(id);
@@ -46,7 +47,9 @@ controls.target.set(0, 1, 0);
 
 // Distance that frames the whole head. Narrow (portrait) screens back off so
 // the head fits the width too.
-const frameDistance = () => LENS_MM * 0.125 * head.scale * Math.max(1, 0.55 / camera.aspect);
+// ?zoom=1.5 starts closer; the thumbnail script uses it to fill the frame.
+const ZOOM = Number(new URLSearchParams(location.search).get('zoom')) || 1;
+const frameDistance = () => (LENS_MM * 0.125 * head.scale * Math.max(1, 0.55 / camera.aspect)) / ZOOM;
 
 const hemi = new THREE.HemisphereLight(0xffffff, 0x8d8b88, 0.3);
 scene.add(hemi);
@@ -66,73 +69,47 @@ scene.add(fill, fill.target);
 const plaster = new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.86, metalness: 0 });
 
 // ---------------------------------------------------------------------------
-// Models
+// Model
 //
-// Each model is a GLB in public/models/. The crease angle splits normals
-// where neighbouring faces turn sharply, which keeps the Asaro planes flat
-// with hard edges. Without one, a sculpted surface shades smoothly.
+// The page shows one model from src/models.js, picked by ?m=<id>. The crease
+// angle splits normals where neighbouring faces turn sharply, which keeps the
+// Asaro planes flat with hard edges. Scans ship smooth normals in the GLB.
 
-const MODELS = {
-  asaro: {
-    file: 'asaro-head.glb',
-    crease: 28,
-    credit:
-      'Model: <a href="https://www.thingiverse.com/thing:7287701" target="_blank" rel="noopener">Asaro Head</a> ' +
-      'by AgentSCAD, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA</a>',
-  },
-  napoleon: {
-    file: 'napoleon.glb',
-    credit:
-      '<a href="https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/" target="_blank" rel="noopener">Napoléon Ier</a> ' +
-      'by François Joseph Bosio, Nouveau Musée National de Monaco. Scan: Three D Scans',
-  },
-};
+const model = modelById(new URLSearchParams(location.search).get('m'));
+if (!model) location.replace('../');
+
 // The Asaro head is the reference size: the camera frames it at frameDistance().
 const REFERENCE_HEIGHT = 1.78;
 
 const head = { mesh: null, center: new THREE.Vector3(0, 1, 0), scale: 1 };
 const light = new THREE.Vector3(); // world-space direction toward the key light
-const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-const meshes = {}; // cache, so switching back is instant
-let current = null;
 
-function loadModel(name) {
-  const model = MODELS[name];
-  if (meshes[name]) return Promise.resolve(meshes[name]);
-  return loader.loadAsync(`${import.meta.env.BASE_URL}models/${model.file}`).then((gltf) => {
-    let source;
-    gltf.scene.traverse((o) => o.isMesh && (source ??= o));
-    let geometry = source.geometry;
-    if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
-    else if (!geometry.attributes.normal) geometry.computeVertexNormals();
-    const mesh = new THREE.Mesh(geometry, plaster);
-    // Quantized glTF positions carry their real scale and offset on the node.
-    gltf.scene.updateMatrixWorld(true);
-    mesh.applyMatrix4(source.matrixWorld);
-    mesh.castShadow = mesh.receiveShadow = true;
-    return (meshes[name] = mesh);
-  });
-}
+if (model) {
+  document.title = `${model.title} – 3D drawing reference – ${SITE_NAME}`;
+  const canonical = document.createElement('link');
+  canonical.rel = 'canonical';
+  canonical.href = `${location.origin}${location.pathname}?m=${model.id}`;
+  document.head.append(canonical);
+  $('title').textContent = model.title;
+  $('artist').textContent = model.artist;
+  $('credit').innerHTML = model.credit;
 
-function showModel(name) {
-  if (!MODELS[name]) name = 'asaro';
-  if (name === current) return;
-  current = name;
-  for (const button of document.querySelectorAll('[data-model]')) {
-    button.setAttribute('aria-pressed', String(button.dataset.model === name));
-  }
-  $('credit').innerHTML = MODELS[name].credit;
-  if (!meshes[name]) $('status').textContent = 'Loading model…';
+  new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(
+    `${import.meta.env.BASE_URL}models/${model.file}`,
+    (gltf) => {
+      let source;
+      gltf.scene.traverse((o) => o.isMesh && (source ??= o));
+      let geometry = source.geometry;
+      if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
+      else if (!geometry.attributes.normal) geometry.computeVertexNormals();
+      head.mesh = new THREE.Mesh(geometry, plaster);
+      // Quantized glTF positions carry their real scale and offset on the node.
+      gltf.scene.updateMatrixWorld(true);
+      head.mesh.applyMatrix4(source.matrixWorld);
+      head.mesh.castShadow = head.mesh.receiveShadow = true;
+      scene.add(head.mesh);
 
-  loadModel(name).then(
-    (mesh) => {
-      if (name !== current) return; // another model was picked while this loaded
-      const first = !head.mesh;
-      if (head.mesh) scene.remove(head.mesh);
-      head.mesh = mesh;
-      scene.add(mesh);
-
-      const box = new THREE.Box3().setFromObject(mesh);
+      const box = new THREE.Box3().setFromObject(head.mesh);
       const size = box.getSize(new THREE.Vector3());
       box.getCenter(head.center);
       head.scale = size.y / REFERENCE_HEIGHT;
@@ -141,34 +118,23 @@ function showModel(name) {
       const r = 0.8 * Math.max(size.x, size.y, size.z);
       Object.assign(key.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 12 * head.scale });
       key.shadow.camera.updateProjectionMatrix();
+      controls.minDistance = 0.75 * head.scale;
       controls.maxDistance = 60 * head.scale;
 
-      // Keep the viewing angle when switching, but reframe for the new size.
-      const dir = first
-        ? dirFromAngles(START_VIEW.az, START_VIEW.el)
-        : camera.position.clone().sub(controls.target).normalize();
       resize();
       controls.target.copy(head.center);
-      camera.position.copy(head.center).addScaledVector(dir, frameDistance());
+      camera.position.copy(head.center).addScaledVector(dirFromAngles(START_VIEW.az, START_VIEW.el), frameDistance());
       controls.update();
-      if (first) dirFromAngles(START_VIEW.az + START_LIGHT.az, START_LIGHT.el, light);
+      dirFromAngles(START_VIEW.az + START_LIGHT.az, START_LIGHT.el, light);
       $('status').textContent = '';
     },
+    undefined,
     (err) => {
       console.error(err);
-      if (name === current) $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
+      $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
     },
   );
 }
-
-for (const button of document.querySelectorAll('[data-model]')) {
-  button.addEventListener('click', () => {
-    history.replaceState(null, '', button.dataset.model === 'asaro' ? location.pathname : `#${button.dataset.model}`);
-    showModel(button.dataset.model);
-  });
-}
-window.addEventListener('hashchange', () => showModel(location.hash.slice(1)));
-showModel(location.hash.slice(1));
 
 // ---------------------------------------------------------------------------
 // Light
@@ -202,7 +168,9 @@ function resize() {
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
-window.addEventListener('resize', resize);
+// Watch the canvas itself: it can change size without a window resize, for
+// example when the stylesheet arrives after the model.
+new ResizeObserver(resize).observe(canvas);
 
 resize();
 renderer.setAnimationLoop(() => {

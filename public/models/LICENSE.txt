@@ -5,3 +5,7 @@ napoleon.glb: "Napoléon Ier" by François Joseph Bosio, Nouveau Musée National
 Scanned by Three D Scans (https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/),
 which publishes its scans free to use without copyright restrictions. The web version was
 reoriented and simplified from the original OBJ.
+
+nymph.glb: "Nymph Preparing for the Bath" by John Gibson, The Usher Gallery, Lincoln.
+Scanned by Three D Scans (https://threedscans.com/lincoln/nymph/), free to use without
+copyright restrictions. The web version was reoriented from the original STL.

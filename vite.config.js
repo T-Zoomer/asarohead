@@ -1,16 +1,32 @@
 import { defineConfig } from 'vite';
+import { MODELS } from './src/models.js';
 
 // The public address of the site. Canonical links, share previews,
 // robots.txt and sitemap.xml are all built from it. Override with
 // SITE_URL=https://example.com npm run build
 const SITE_URL = (process.env.SITE_URL ?? 'https://asarohead.com').replace(/\/$/, '');
 
-const PAGES = ['/', '/about/'];
+const PAGES = ['/', '/about/', ...MODELS.map((m) => `/view/?m=${m.id}`)];
+
+const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+// The home page cards, built from src/models.js.
+function galleryHtml() {
+  return MODELS.map(
+    (m) => `<li>
+          <a class="card" href="view/?m=${m.id}">
+            <div class="thumb"><img src="thumbs/${m.id}.jpg" alt="" width="600" height="600" loading="lazy" /></div>
+            <h2>${escape(m.title)}</h2>
+            <p>${escape(m.artist)}</p>
+          </a>
+        </li>`,
+  ).join('\n        ');
+}
 
 function seo() {
   return {
     name: 'seo',
-    transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', SITE_URL),
+    transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', SITE_URL).replace('<!--gallery-->', galleryHtml()),
     generateBundle() {
       this.emitFile({
         type: 'asset',
@@ -40,6 +56,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
+        view: 'view/index.html',
         about: 'about/index.html',
       },
     },
