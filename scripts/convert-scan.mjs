@@ -74,6 +74,159 @@ const SCANS = {
     // Already y-up, lying along x with the head toward -x.
     rotate: ([x, y, z]) => [x, y, z],
     height: 1.2,
+  },  'triton': {
+    // https://threedscans.com/ferdinandeum-innsbruck/triton/
+    src: '200720_Triton 2.OBJ',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'oceanus': {
+    // https://threedscans.com/ferdinandeum-innsbruck/oceanus/
+    src: 'Oceanus100.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'aphrodite': {
+    // https://threedscans.com/lincoln/aphrodite/
+    src: 'aphrodite.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'child-goose': {
+    // https://threedscans.com/institut-fur-klassische-archaologie/child-with-goose/
+    src: 'Child_with_goose.obj',
+    // Already y-up, facing +z.
+    rotate: ([x, y, z]) => [x, y, z],
+    height: 2,
+  },
+  'einstein': {
+    // https://threedscans.com/lincoln/einstein/
+    src: 'Einstein.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'elssler-foot': {
+    // https://threedscans.com/theater-museum/fanny-elssler/
+    src: 'Fuß-Fanny-Elssler_mehr_Details-50T.stl',
+    // Up is -z.
+    rotate: ([x, y, z]) => [x, -z, y],
+    height: 2,
+  },
+  'drame-au-desert': {
+    // https://threedscans.com/depot-des-sculptures-de-la-ville-de-paris/drameaudesert/
+    src: 'Georges Gardet.OBJ',
+    // Upside down (up is -y).
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'hounds': {
+    // https://threedscans.com/depot-des-sculptures-de-la-ville-de-paris/deuxchiensdemeutealattache/
+    src: 'Georges Lucien Vacossin.OBJ',
+    // Y-up, front toward +x.
+    rotate: ([x, y, z]) => [-z, y, x],
+    height: 2,
+  },
+  'hermes': {
+    // https://threedscans.com/vienna/hermes-fastening-his-sandals/
+    src: 'hermes.OBJ',
+    // Already y-up, facing +z.
+    rotate: ([x, y, z]) => [x, y, z],
+    height: 2,
+  },
+  'horse-head': {
+    // https://threedscans.com/museo-archeologico-nazionale/horse/
+    src: 'Horse_Head.obj',
+    // Upside down (up is -y), front toward +x.
+    rotate: ([x, y, z]) => [z, -y, x],
+    height: 2,
+  },
+  'jungling': {
+    // https://threedscans.com/kunsthistorisches-museum-wien/jungling/
+    src: 'Jüngling_Vom_Magdalensberg.obj',
+    // Y-up, front toward +x.
+    rotate: ([x, y, z]) => [-z, y, x],
+    height: 2,
+  },
+  'marble-player': {
+    // https://threedscans.com/lincoln/marble-player/
+    src: 'Marble_Player.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'mars': {
+    // https://threedscans.com/lincoln/mars/
+    src: 'Mars.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'mercury': {
+    // https://threedscans.com/lincoln/mercury/
+    src: 'Mercury.stl',
+    // Y-up, front toward -z.
+    rotate: ([x, y, z]) => [-x, y, -z],
+    height: 2,
+  },
+  'napoleon-chaudet': {
+    // https://threedscans.com/lincoln/napoleon/
+    src: 'Napoleon.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
+  },
+  'salmacis': {
+    // https://threedscans.com/nouveau-musee-national-de-monaco/la-nymphe-salmacis/
+    src: 'NYMPH_fix1.OBJ',
+    // Already y-up, facing +z.
+    rotate: ([x, y, z]) => [x, y, z],
+    height: 2,
+  },
+  'photosculpture': {
+    // https://threedscans.com/musee-carnavalet/delaunay-photosculpture/
+    src: 'Photosculpture.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'shepherd-boy': {
+    // https://threedscans.com/walker-art-gallery/sleeping-shepherd-boy/
+    src: 'shepherd-boy.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'tennyson': {
+    // https://threedscans.com/lincoln/tennyson/
+    src: 'Tennyson_Bust_Plaster.stl',
+    // Upside down (up is -y), front toward +z.
+    rotate: ([x, y, z]) => [-x, -y, z],
+    height: 2,
+  },
+  'hunter': {
+    // https://threedscans.com/lincoln/hunter-and-dog/
+    src: 'The_Hunter_And_His_Dog.stl',
+    // Upside down (up is -y), front toward +x.
+    rotate: ([x, y, z]) => [z, -y, x],
+    height: 2,
+  },
+  'boy-with-thorn': {
+    // https://threedscans.com/institut-fur-klassische-archaologie/boy-with-thorn/
+    src: 'Thorne.obj',
+    // Y-up, front toward -z.
+    rotate: ([x, y, z]) => [-x, y, -z],
+    height: 2,
+  },
+  'venus-cupid': {
+    // https://threedscans.com/lincoln/venus-and-cupid/
+    src: 'Venus_Kissing_Cupid.stl',
+    // Upside down (up is -y), front toward -z.
+    rotate: ([x, y, z]) => [x, -y, -z],
+    height: 2,
   },
 };
 

@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import { MODELS } from './src/models.js';
 
@@ -15,7 +16,7 @@ function galleryHtml() {
   return MODELS.map(
     (m) => `<li>
           <a class="card" href="view/?m=${m.id}">
-            <div class="thumb"><img src="thumbs/${m.id}.jpg" alt="" width="600" height="600" loading="lazy" /></div>
+            <div class="thumb"><img src="thumbs/${m.id}.webp" alt="" width="600" height="600" loading="lazy" /></div>
             <h2>${escape(m.title)}</h2>
             <p>${escape(m.artist)}</p>
           </a>
@@ -23,10 +24,22 @@ function galleryHtml() {
   ).join('\n        ');
 }
 
+// The About page's list of scan credits, built from src/models.js.
+function creditsHtml() {
+  return MODELS.filter((m) => m.credit.includes('threedscans.com'))
+    .map((m) => `<li>${m.credit.replace(/\. Scan: Three D Scans$/, '')}</li>`)
+    .join('\n        ');
+}
+
 function seo() {
   return {
     name: 'seo',
-    transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', SITE_URL).replace('<!--gallery-->', galleryHtml()),
+    transformIndexHtml: (html) =>
+      html
+        .replace('<head>', `<head>\n    <script>${readFileSync(new URL('./src/background-boot.js', import.meta.url), 'utf8')}</script>`)
+        .replaceAll('__SITE_URL__', SITE_URL)
+        .replace('<!--gallery-->', galleryHtml())
+        .replace('<!--credits-->', creditsHtml()),
     generateBundle() {
       this.emitFile({
         type: 'asset',

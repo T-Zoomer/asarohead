@@ -9,6 +9,13 @@
   --font: 'Instrument Sans', system-ui, sans-serif;
 }
 
+/* The saved background setting sets --bg; on a light one, text turns dark. */
+.light-bg {
+  --text: #2c2d30;
+  --muted: #5a5b5f;
+  --strong: #111113;
+}
+
 * {
   box-sizing: border-box;
 }

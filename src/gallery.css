@@ -2,12 +2,16 @@
 
 :root {
   --bg: #111113;
-  --card: #18181b;
-  --line: rgba(255, 255, 255, 0.08);
   --text: #8b8c8f;
   --strong: #e9e9e7;
   --focus: #6f93ff;
   --font: 'Instrument Sans', system-ui, sans-serif;
+}
+
+/* The saved background setting sets --bg; on a light one, text turns dark. */
+.light-bg {
+  --text: #3d3e42;
+  --strong: #111113;
 }
 
 * {
@@ -86,10 +90,6 @@ main {
 
 .card .thumb {
   aspect-ratio: 1;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--card);
 }
 
 .card img {

@@ -16,7 +16,6 @@ const START_VIEW = { az: 40, el: 6 };
 // Starting light, relative to the camera: up and to the viewer's left.
 const START_LIGHT = { az: -45, el: 40 };
 
-const BACKGROUND = 0x111113;
 const LENS_MM = 85;
 
 function dirFromAngles(az, el, out = new THREE.Vector3()) {
@@ -27,14 +26,16 @@ function dirFromAngles(az, el, out = new THREE.Vector3()) {
 // Renderer, scene, camera
 
 const canvas = $('view');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+// ?thumb renders on a transparent background, for the gallery thumbnails.
+const THUMB = new URLSearchParams(location.search).has('thumb');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: THUMB });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.toneMapping = THREE.NeutralToneMapping;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(BACKGROUND);
+scene.background = THUMB ? null : new THREE.Color(siteBackground.css());
 
 // Vertical field of view of an 85 mm lens on a full-frame (24 mm tall) sensor.
 const camera = new THREE.PerspectiveCamera((2 * Math.atan(12 / LENS_MM)) / DEG, 1, 0.1, 200);
@@ -74,22 +75,19 @@ scene.add(key, key.target);
 const fill = new THREE.DirectionalLight(0xe4ebff, 0.15);
 scene.add(fill, fill.target);
 
-// Materials. Plaster is fully matte, so each Asaro plane reads as one flat
-// value. Marble is whiter with a soft sheen: a polished-stone highlight and
-// faint reflections of a neutral studio, kept low so values stay readable.
+// One white marble for every model: a soft sheen, a polished-stone
+// highlight and faint reflections of a neutral studio, kept low so the
+// shadows stay deep and values stay readable.
 const studio = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
-const MATERIALS = {
-  plaster: new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.86, metalness: 0 }),
-  marble: new THREE.MeshPhysicalMaterial({
-    color: 0xf2f0ea,
-    roughness: 0.42,
-    metalness: 0,
-    envMap: studio,
-    envMapIntensity: 0.1,
-    clearcoat: 0.25,
-    clearcoatRoughness: 0.35,
-  }),
-};
+const marble = new THREE.MeshPhysicalMaterial({
+  color: 0xf2f0ea,
+  roughness: 0.42,
+  metalness: 0,
+  envMap: studio,
+  envMapIntensity: 0.1,
+  clearcoat: 0.25,
+  clearcoatRoughness: 0.35,
+});
 
 // ---------------------------------------------------------------------------
 // Model
@@ -125,7 +123,7 @@ if (model) {
       let geometry = source.geometry;
       if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
       else if (!geometry.attributes.normal) geometry.computeVertexNormals();
-      head.mesh = new THREE.Mesh(geometry, MATERIALS[model.material ?? 'marble']);
+      head.mesh = new THREE.Mesh(geometry, marble);
       // Quantized glTF positions carry their real scale and offset on the node.
       gltf.scene.updateMatrixWorld(true);
       head.mesh.applyMatrix4(source.matrixWorld);
@@ -175,36 +173,16 @@ const lightBall = createLightBall($('light-ball'), {
 // ---------------------------------------------------------------------------
 // Background
 //
-// The slider blends the background from near-black to light gray. Text and
-// the light ball's outlines switch to dark once the background is light.
+// The slider sets the site-wide background (src/background-boot.js), which
+// every page remembers. Text and the light ball's outlines follow it.
 
-// Blend in sRGB, so the slider steps look even.
-const BG_DARK = [0x11, 0x11, 0x13];
-const BG_LIGHT = [0xe4, 0xe4, 0xe1];
 const bgSlider = $('bg');
-
-function setBackground(t) {
-  const css = `rgb(${BG_DARK.map((d, i) => Math.round(d + (BG_LIGHT[i] - d) * t)).join(', ')})`;
-  scene.background.setStyle(css);
-  const root = document.documentElement.style;
-  const light = t > 0.45;
-  root.setProperty('--bg', css);
-  root.setProperty('--text', light ? '#3d3e42' : '#8b8c8f');
-  root.setProperty('--text-strong', light ? '#111113' : '#e9e9e7');
-  root.setProperty('--ring', light ? 'rgba(0, 0, 0, 0.25)' : 'rgba(255, 255, 255, 0.18)');
-  lightBall.redraw();
-}
-
+bgSlider.value = siteBackground.value();
 bgSlider.addEventListener('input', () => {
-  setBackground(bgSlider.value / 100);
-  try {
-    localStorage.setItem('background', bgSlider.value);
-  } catch {}
+  siteBackground.set(Number(bgSlider.value));
+  if (!THUMB) scene.background.setStyle(siteBackground.css());
+  lightBall.redraw();
 });
-try {
-  bgSlider.value = localStorage.getItem('background') ?? 0;
-} catch {}
-setBackground(bgSlider.value / 100);
 
 const toCam = new THREE.Vector3();
 const inverseCam = new THREE.Quaternion();

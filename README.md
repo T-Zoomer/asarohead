@@ -51,12 +51,6 @@ publishes its scans free to use without copyright restrictions. They keep
 their full resolution up to 1.5M triangles (larger scans are simplified to
 that), with smooth normals computed from the full mesh.
 
-| Model | Source file | Triangles | GLB |
-| --- | --- | --- | --- |
-| [Napoléon Ier](https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/), François Joseph Bosio | `NAPOLEON_fix.OBJ` | 990k | 5.6 MB |
-| [Nymph Preparing for the Bath](https://threedscans.com/lincoln/nymph/), John Gibson | `Nymph_Preparing_For_The_Bath.stl` | 533k | 3.2 MB |
-| [Head of Saint John the Baptist on a Platter](https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/), 1430 | `John_the_Baptist.obj` | 1.5M | 8.7 MB |
-| [Neptune](https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/), restored by Iustinian Funie | `Neptune_Iustinian_Funie.obj` | 2.7M → 1.5M | 8.7 MB |
-| [Enfant au Chien](https://threedscans.com/uncategorized/enfant-au-chien-restored/), restored | `enfant_au_chien_threedscans.obj` | 2.2M → 1.5M | 8.3 MB |
-| [Sleeping Venus](https://threedscans.com/uncategorized/sleeping-venus/) | `Sleeping Venus.obj` | 1.5M | 8.4 MB |
-| [Statue of Resting Goat](https://threedscans.com/fondazione-torlonia/statue-of-resting-goat/) | `GOAT.obj` | 222k | 1.3 MB |
+The full list, with sources and credits, is in `src/models.js` (and on the
+site's About page); the source file for each is in `SCANS` in
+`scripts/convert-scan.mjs`.

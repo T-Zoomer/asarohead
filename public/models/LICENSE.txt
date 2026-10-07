@@ -24,3 +24,7 @@ copyright restrictions; reoriented (and for neptune and enfant, simplified) from
   https://threedscans.com/uncategorized/sleeping-venus/
 - Statue of Resting Goat, 3rd century BC, marble, Fondazione Torlonia:
   https://threedscans.com/fondazione-torlonia/statue-of-resting-goat/
+
+All other .glb files here are scans from Three D Scans (https://threedscans.com), free to use
+without copyright restrictions, reoriented and, above 1.5M triangles, simplified for the web.
+Each one's source page and credit is in src/models.js and on the site's About page.

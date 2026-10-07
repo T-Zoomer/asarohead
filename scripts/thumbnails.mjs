@@ -1,12 +1,14 @@
 // Renders a gallery thumbnail for every model in src/models.js into
-// public/thumbs/<id>.jpg, using the real viewer with its controls hidden.
+// public/thumbs/<id>.webp, using the real viewer with its controls hidden and
+// a transparent background, so the casts sit on whatever background the
+// visitor has chosen.
 //
 //   npm run thumbs            # every model
 //   npm run thumbs -- nymph   # just one
 //
 // Needs Playwright's Chromium: npx playwright install chromium
 
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
 import { MODELS } from '../src/models.js';
@@ -25,12 +27,25 @@ const page = await browser.newPage({ viewport: { width: SIZE, height: SIZE } });
 
 const ids = process.argv.slice(2);
 for (const model of MODELS.filter((m) => !ids.length || ids.includes(m.id))) {
-  await page.goto(`${base}view/?m=${model.id}&zoom=${model.thumbZoom ?? 1}`);
-  await page.addStyleTag({ content: '.brand, .controls, .credit, .status { display: none !important; }' });
+  await page.goto(`${base}view/?m=${model.id}&thumb&zoom=${model.thumbZoom ?? 1}`);
+  await page.addStyleTag({
+    content: '.brand, .controls, .credit, .status { display: none !important; } html, body { background: transparent !important; }',
+  });
   await page.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 120000 });
   await page.waitForTimeout(1000); // let the orbit damping settle
-  const path = new URL(`${model.id}.jpg`, OUT).pathname;
-  await page.screenshot({ path, type: 'jpeg', quality: 82 });
+  const png = await page.screenshot({ omitBackground: true });
+  // Playwright only writes PNG or JPEG; let the browser encode WebP, which
+  // keeps the transparency at a fraction of the PNG's size.
+  const webp = await page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const c = Object.assign(document.createElement('canvas'), { width: img.width, height: img.height });
+    c.getContext('2d').drawImage(img, 0, 0);
+    return c.toDataURL('image/webp', 0.85).split(',')[1];
+  }, png.toString('base64'));
+  const path = new URL(`${model.id}.webp`, OUT).pathname;
+  writeFileSync(path, Buffer.from(webp, 'base64'));
   console.log(`${model.id} -> ${path}`);
 }
 
