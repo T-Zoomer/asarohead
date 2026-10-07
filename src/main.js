@@ -46,7 +46,7 @@ controls.target.set(0, 1, 0);
 
 // Distance that frames the whole head. Narrow (portrait) screens back off so
 // the head fits the width too.
-const frameDistance = () => LENS_MM * 0.125 * Math.max(1, 0.55 / camera.aspect);
+const frameDistance = () => LENS_MM * 0.125 * head.scale * Math.max(1, 0.55 / camera.aspect);
 
 const hemi = new THREE.HemisphereLight(0xffffff, 0x8d8b88, 0.3);
 scene.add(hemi);
@@ -66,44 +66,107 @@ scene.add(fill, fill.target);
 const plaster = new THREE.MeshStandardMaterial({ color: 0xe2e0da, roughness: 0.86, metalness: 0 });
 
 // ---------------------------------------------------------------------------
-// Model
+// Models
+//
+// Each model is a GLB in public/models/. The crease angle splits normals
+// where neighbouring faces turn sharply: low keeps the Asaro planes flat with
+// hard edges, high lets a sculpted surface shade smoothly.
 
-const head = { mesh: null, center: new THREE.Vector3(0, 1, 0) };
+const MODELS = {
+  asaro: {
+    file: 'asaro-head.glb',
+    crease: 28,
+    credit:
+      'Model: <a href="https://www.thingiverse.com/thing:7287701" target="_blank" rel="noopener">Asaro Head</a> ' +
+      'by AgentSCAD, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA</a>',
+  },
+  napoleon: {
+    file: 'napoleon.glb',
+    crease: 60,
+    credit:
+      '<a href="https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/" target="_blank" rel="noopener">Napoléon Ier</a> ' +
+      'by François Joseph Bosio, Nouveau Musée National de Monaco. Scan: Three D Scans',
+  },
+};
+// The Asaro head is the reference size: the camera frames it at frameDistance().
+const REFERENCE_HEIGHT = 1.78;
+
+const head = { mesh: null, center: new THREE.Vector3(0, 1, 0), scale: 1 };
 const light = new THREE.Vector3(); // world-space direction toward the key light
+const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+const meshes = {}; // cache, so switching back is instant
+let current = null;
 
-new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(
-  `${import.meta.env.BASE_URL}models/asaro-head.glb`,
-  (gltf) => {
+function loadModel(name) {
+  const model = MODELS[name];
+  if (meshes[name]) return Promise.resolve(meshes[name]);
+  return loader.loadAsync(`${import.meta.env.BASE_URL}models/${model.file}`).then((gltf) => {
     let source;
     gltf.scene.traverse((o) => o.isMesh && (source ??= o));
-
-    // Creased normals: the planes stay flat with hard edges between them,
-    // while the few gently curved areas (the skull) shade smoothly.
-    const geometry = toCreasedNormals(source.geometry, 28 * DEG);
-    head.mesh = new THREE.Mesh(geometry, plaster);
+    const mesh = new THREE.Mesh(toCreasedNormals(source.geometry, model.crease * DEG), plaster);
     // Quantized glTF positions carry their real scale and offset on the node.
     gltf.scene.updateMatrixWorld(true);
-    head.mesh.applyMatrix4(source.matrixWorld);
-    head.mesh.castShadow = head.mesh.receiveShadow = true;
-    scene.add(head.mesh);
+    mesh.applyMatrix4(source.matrixWorld);
+    mesh.castShadow = mesh.receiveShadow = true;
+    return (meshes[name] = mesh);
+  });
+}
 
-    new THREE.Box3().setFromObject(head.mesh).getCenter(head.center);
-    key.target.position.copy(head.center);
-    fill.target.position.copy(head.center);
+function showModel(name) {
+  if (!MODELS[name]) name = 'asaro';
+  if (name === current) return;
+  current = name;
+  for (const button of document.querySelectorAll('[data-model]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.model === name));
+  }
+  $('credit').innerHTML = MODELS[name].credit;
+  if (!meshes[name]) $('status').textContent = 'Loading model…';
 
-    resize();
-    controls.target.copy(head.center);
-    camera.position.copy(head.center).addScaledVector(dirFromAngles(START_VIEW.az, START_VIEW.el), frameDistance());
-    controls.update();
-    dirFromAngles(START_VIEW.az + START_LIGHT.az, START_LIGHT.el, light);
-    $('status').textContent = '';
-  },
-  undefined,
-  (err) => {
-    console.error(err);
-    $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
-  },
-);
+  loadModel(name).then(
+    (mesh) => {
+      if (name !== current) return; // another model was picked while this loaded
+      const first = !head.mesh;
+      if (head.mesh) scene.remove(head.mesh);
+      head.mesh = mesh;
+      scene.add(mesh);
+
+      const box = new THREE.Box3().setFromObject(mesh);
+      const size = box.getSize(new THREE.Vector3());
+      box.getCenter(head.center);
+      head.scale = size.y / REFERENCE_HEIGHT;
+      key.target.position.copy(head.center);
+      fill.target.position.copy(head.center);
+      const r = 0.8 * Math.max(size.x, size.y, size.z);
+      Object.assign(key.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 12 * head.scale });
+      key.shadow.camera.updateProjectionMatrix();
+      controls.maxDistance = 60 * head.scale;
+
+      // Keep the viewing angle when switching, but reframe for the new size.
+      const dir = first
+        ? dirFromAngles(START_VIEW.az, START_VIEW.el)
+        : camera.position.clone().sub(controls.target).normalize();
+      resize();
+      controls.target.copy(head.center);
+      camera.position.copy(head.center).addScaledVector(dir, frameDistance());
+      controls.update();
+      if (first) dirFromAngles(START_VIEW.az + START_LIGHT.az, START_LIGHT.el, light);
+      $('status').textContent = '';
+    },
+    (err) => {
+      console.error(err);
+      if (name === current) $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
+    },
+  );
+}
+
+for (const button of document.querySelectorAll('[data-model]')) {
+  button.addEventListener('click', () => {
+    history.replaceState(null, '', button.dataset.model === 'asaro' ? location.pathname : `#${button.dataset.model}`);
+    showModel(button.dataset.model);
+  });
+}
+window.addEventListener('hashchange', () => showModel(location.hash.slice(1)));
+showModel(location.hash.slice(1));
 
 // ---------------------------------------------------------------------------
 // Light
@@ -122,9 +185,9 @@ const inverseCam = new THREE.Quaternion();
 function updateLights() {
   inverseCam.copy(camera.quaternion).invert();
   lightBall.set(light.clone().applyQuaternion(inverseCam).toArray());
-  key.position.copy(head.center).addScaledVector(light, 6);
+  key.position.copy(head.center).addScaledVector(light, 6 * head.scale);
   toCam.copy(camera.position).sub(controls.target).normalize();
-  fill.position.copy(head.center).addScaledVector(toCam, 6);
+  fill.position.copy(head.center).addScaledVector(toCam, 6 * head.scale);
 }
 
 // ---------------------------------------------------------------------------

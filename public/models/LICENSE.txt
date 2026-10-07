@@ -1,2 +1,7 @@
 This thing was created by Thingiverse user AgentSCAD, and is licensed under cc-sa.
 The web version (asaro-head.glb) was reassembled and simplified from the original STL files. It is shared under the same license (CC BY-SA).
+
+napoleon.glb: "Napoléon Ier" by François Joseph Bosio, Nouveau Musée National de Monaco.
+Scanned by Three D Scans (https://threedscans.com/nouveau-musee-national-de-monaco/napoleon-ler/),
+which publishes its scans free to use without copyright restrictions. The web version was
+reoriented and simplified from the original OBJ.

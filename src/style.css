@@ -63,10 +63,35 @@ body {
   color: var(--text);
 }
 
+.models {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.models button {
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.models button:hover {
+  color: var(--text-strong);
+}
+
+.models button[aria-pressed='true'] {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--text-strong);
+}
+
 .links {
   display: flex;
   gap: 14px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 
 .links a {

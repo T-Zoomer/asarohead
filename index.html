@@ -47,11 +47,15 @@
   </head>
   <body>
     <main class="stage">
-      <canvas id="view" aria-label="3D Asaro head. Drag to turn, scroll to zoom."></canvas>
+      <canvas id="view" aria-label="3D head. Drag to turn, scroll to zoom."></canvas>
 
       <header class="brand">
         <h1>Asaro head</h1>
         <p class="tagline">Free 3D planes of the head for drawing reference.</p>
+        <div class="models" role="group" aria-label="Model">
+          <button type="button" data-model="asaro" aria-pressed="true">Asaro head</button>
+          <button type="button" data-model="napoleon" aria-pressed="false">Napoleon</button>
+        </div>
         <nav class="links" aria-label="Site">
           <a href="about/">About</a>
         </nav>
@@ -70,7 +74,7 @@
 
       <div class="status" id="status" role="status">Loading model…</div>
 
-      <footer class="credit">
+      <footer class="credit" id="credit">
         Model: <a href="https://www.thingiverse.com/thing:7287701" target="_blank" rel="noopener">Asaro Head</a>
         by AgentSCAD,
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA</a>

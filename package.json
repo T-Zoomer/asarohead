@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "convert": "node scripts/convert-model.mjs"
+    "convert": "node scripts/convert-model.mjs",
+    "convert:napoleon": "node scripts/convert-napoleon.mjs"
   },
   "type": "module",
   "private": true,
