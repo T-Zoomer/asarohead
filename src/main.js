@@ -261,6 +261,46 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// Saved view
+//
+// Save the exact view (camera, orbit center, zoom and light) and glide back
+// to it at any time. It is remembered per model in this browser.
+
+const saveButton = $('save-view');
+const loadButton = $('load-view');
+const savedKey = `view:${model?.id}`;
+
+// Kept in memory too, so it works for this visit even if storage is blocked.
+let savedView = null;
+try {
+  savedView = JSON.parse(localStorage.getItem(savedKey));
+} catch {}
+
+function showSaved() {
+  loadButton.disabled = !savedView;
+  saveButton.classList.toggle('has-saved', Boolean(savedView));
+}
+showSaved();
+
+saveButton.addEventListener('click', () => {
+  if (!head.mesh) return;
+  savedView = { camera: camera.position.toArray(), target: controls.target.toArray(), light: light.toArray() };
+  try {
+    localStorage.setItem(savedKey, JSON.stringify(savedView));
+  } catch {}
+  showSaved();
+  saveButton.classList.add('flash');
+  setTimeout(() => saveButton.classList.remove('flash'), 600);
+});
+
+loadButton.addEventListener('click', () => {
+  if (!savedView || !head.mesh) return;
+  armRecenter(false);
+  flyTo(new THREE.Vector3().fromArray(savedView.target), new THREE.Vector3().fromArray(savedView.camera));
+  light.fromArray(savedView.light);
+});
+
 const toCam = new THREE.Vector3();
 const inverseCam = new THREE.Quaternion();
 function updateLights() {

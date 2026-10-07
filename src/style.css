@@ -181,9 +181,22 @@ body {
 }
 
 .tool:hover,
-.tool[aria-pressed='true'] {
+.tool[aria-pressed='true'],
+.tool.flash {
   border-color: var(--text-strong);
   color: var(--text-strong);
+}
+
+.tool:disabled {
+  opacity: 0.35;
+  cursor: default;
+  border-color: var(--ring);
+  color: var(--text);
+}
+
+/* The save button fills in once this model has a saved view. */
+.tool.has-saved svg {
+  fill: currentColor;
 }
 
 /* While the recenter tool is armed, the model shows a crosshair. */
