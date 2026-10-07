@@ -83,7 +83,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .light-ball {
@@ -95,19 +95,54 @@ body {
   touch-action: none;
 }
 
-.bg-control {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  font-size: 11px;
+/* Background slider: a thin vertical track showing the dark-to-light range,
+   lighter at the top. Styled per engine, so each rule set stays separate. */
+.bg-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 84px;
+  margin: 0;
+  background: none;
+  cursor: pointer;
 }
 
-.bg-control input {
-  width: 96px;
-  margin: 0;
-  accent-color: var(--text-strong);
-  cursor: pointer;
+.bg-slider::-webkit-slider-runnable-track {
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to top, #111113, #e4e4e1);
+  box-shadow: 0 0 0 1px var(--ring);
+}
+
+.bg-slider::-moz-range-track {
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to top, #111113, #e4e4e1);
+  box-shadow: 0 0 0 1px var(--ring);
+}
+
+.bg-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-left: -4px;
+  border: 1.5px solid var(--text-strong);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.bg-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--text-strong);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.bg-slider:focus-visible {
+  outline-offset: 2px;
 }
 
 .status {
@@ -151,8 +186,8 @@ body {
     height: 88px;
   }
 
-  .bg-control input {
-    width: 84px;
+  .bg-slider {
+    height: 72px;
   }
 
 
