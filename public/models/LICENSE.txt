@@ -13,3 +13,14 @@ copyright restrictions. The web version was reoriented from the original STL.
 john-baptist.glb: "Head of Saint John the Baptist on a Platter" (1430, oak), Bode Museum, Berlin.
 Scanned by Three D Scans (https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/),
 free to use without copyright restrictions. The web version was reoriented from the original OBJ.
+
+neptune.glb, enfant.glb, venus.glb, goat.glb: scans from Three D Scans, free to use without
+copyright restrictions; reoriented (and for neptune and enfant, simplified) from the original OBJs.
+- Neptune (restored by Iustinian Funie), Musée de la Romanité, Nîmes:
+  https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/
+- Enfant au Chien (restored), 1st century, marble, Musée de la Romanité, Nîmes:
+  https://threedscans.com/uncategorized/enfant-au-chien-restored/
+- Sleeping Venus, 1st-2nd century AD, marble, National Museums Liverpool:
+  https://threedscans.com/uncategorized/sleeping-venus/
+- Statue of Resting Goat, 3rd century BC, marble, Fondazione Torlonia:
+  https://threedscans.com/fondazione-torlonia/statue-of-resting-goat/

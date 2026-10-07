@@ -61,6 +61,54 @@ export const MODELS = [
       '<a href="https://threedscans.com/bode-museum/haupt-johannes-des-taufers-in-einer-schussel/" target="_blank" rel="noopener">Head of Saint John the Baptist on a Platter</a> ' +
       '(1430, oak), Bode Museum, Berlin. Scan: Three D Scans',
   },
+  {
+    id: 'neptune',
+    title: 'Neptune',
+    artist: 'Restored by Iustinian Funie',
+    kind: 'Standing figure',
+    blurb: 'A standing god with trident and drapery, digitally restored.',
+    file: 'neptune.glb',
+    thumbZoom: 1.4,
+    credit:
+      '<a href="https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/" target="_blank" rel="noopener">Neptune</a> ' +
+      '(restored by Iustinian Funie), Musée de la Romanité, Nîmes. Scan: Three D Scans',
+  },
+  {
+    id: 'enfant',
+    title: 'Enfant au Chien',
+    artist: 'Roman, 1st century',
+    kind: 'Standing figure',
+    blurb: 'A child holding a dog: soft, rounded forms and a lively pose.',
+    file: 'enfant.glb',
+    credit:
+      '<a href="https://threedscans.com/uncategorized/enfant-au-chien-restored/" target="_blank" rel="noopener">Enfant au Chien</a> ' +
+      '(restored), 1st century, marble, Musée de la Romanité, Nîmes. Scan: Three D Scans',
+  },
+  {
+    id: 'venus',
+    title: 'Sleeping Venus',
+    artist: 'Roman, 1st–2nd century AD',
+    kind: 'Reclining figure',
+    blurb: 'A reclining figure, for foreshortening and long, flowing forms.',
+    file: 'venus.glb',
+    thumbZoom: 1.25,
+    view: { az: -20, el: 15 },
+    credit:
+      '<a href="https://threedscans.com/uncategorized/sleeping-venus/" target="_blank" rel="noopener">Sleeping Venus</a> ' +
+      '(1st–2nd century AD, marble), National Museums Liverpool. Scan: Three D Scans',
+  },
+  {
+    id: 'goat',
+    title: 'Statue of Resting Goat',
+    artist: '3rd century BC',
+    kind: 'Animal',
+    blurb: 'A resting goat with a shaggy coat and curling horns.',
+    file: 'goat.glb',
+    view: { az: -35, el: 12 },
+    credit:
+      '<a href="https://threedscans.com/fondazione-torlonia/statue-of-resting-goat/" target="_blank" rel="noopener">Statue of Resting Goat</a> ' +
+      '(3rd century BC, marble), Fondazione Torlonia. Scan: Three D Scans',
+  },
 ];
 
 export const modelById = (id) => MODELS.find((m) => m.id === id);

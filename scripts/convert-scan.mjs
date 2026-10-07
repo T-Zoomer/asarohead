@@ -8,14 +8,19 @@
 // The source files are large (tens of MB) and stay out of git. Download them
 // into "3d_model files/" under the names below.
 //
-// Each scan keeps its full resolution. Smooth normals are computed here from
-// the full mesh, so the viewer shades it like the original.
+// Scans keep their full resolution up to MAX_TRIS; larger ones are
+// simplified to it. Smooth normals are computed from the full mesh first, so
+// the viewer shades every model like the original scan.
 
 import { readFileSync, mkdirSync } from 'node:fs';
 import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { dedup, prune, meshopt } from '@gltf-transform/functions';
-import { MeshoptEncoder } from 'meshoptimizer';
+import { dedup, prune, meshopt, simplify, weld } from '@gltf-transform/functions';
+import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
+
+// Above this, files pass 10 MB and load slowly; with full-resolution normals
+// the simplified mesh looks the same.
+const MAX_TRIS = 1_500_000;
 
 // rotate maps a source vertex to y-up with the front of the sculpture
 // facing +z. height is the model's height in scene units; the viewer frames
@@ -40,6 +45,34 @@ const SCANS = {
     src: 'John_the_Baptist.obj',
     // Z-up (the platter lies on z = 0) with the face toward -y.
     rotate: ([x, y, z]) => [x, z, -y],
+    height: 1.2,
+  },
+  neptune: {
+    // https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/
+    src: 'Neptune_Iustinian_Funie.obj',
+    // Z-up with the front toward +y.
+    rotate: ([x, y, z]) => [-x, z, y],
+    height: 3.5,
+  },
+  enfant: {
+    // https://threedscans.com/uncategorized/enfant-au-chien-restored/
+    src: 'enfant_au_chien_threedscans.obj',
+    // Z-up with the front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  venus: {
+    // https://threedscans.com/uncategorized/sleeping-venus/
+    src: 'Sleeping Venus.obj',
+    // Z-up with the front toward -y; she reclines along x.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 1.2,
+  },
+  goat: {
+    // https://threedscans.com/fondazione-torlonia/statue-of-resting-goat/
+    src: 'GOAT.obj',
+    // Already y-up, lying along x with the head toward -x.
+    rotate: ([x, y, z]) => [x, y, z],
     height: 1.2,
   },
 };
@@ -134,15 +167,18 @@ async function convert(name, scan) {
     .setMaterial(doc.createMaterial('marble').setBaseColorFactor([0.9, 0.9, 0.88, 1]).setRoughnessFactor(0.9));
   doc.createScene().addChild(doc.createNode(name).setMesh(doc.createMesh(name).addPrimitive(prim)));
 
-  await doc.transform(dedup(), prune(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
+  const tris = faces.length / 3;
+  const reduce = tris > MAX_TRIS ? [weld(), simplify({ simplifier: MeshoptSimplifier, ratio: MAX_TRIS / tris, error: 0.01 })] : [];
+  await doc.transform(...reduce, dedup(), prune(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
 
   const out = new URL(`${name}.glb`, OUT_DIR);
   const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
   await io.write(out.pathname, doc);
-  console.log(`${name}: ${faces.length / 3} tris -> ${out.pathname}`);
+  console.log(`${name}: ${tris} -> ${prim.getIndices().getCount() / 3} tris -> ${out.pathname}`);
 }
 
 await MeshoptEncoder.ready;
+await MeshoptSimplifier.ready;
 mkdirSync(OUT_DIR, { recursive: true });
 const names = process.argv.slice(2);
 for (const name of names.length ? names : Object.keys(SCANS)) {
