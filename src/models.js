@@ -69,6 +69,56 @@ export const MODELS = [
       '(restored by Iustinian Funie), Musée de la Romanité, Nîmes. Scan: Three D Scans',
   },
   {
+    id: 'three-graces',
+    title: 'The Three Graces',
+    artist: 'Figure group',
+    kind: 'Figure group',
+    file: 'three-graces.glb',
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=three%20graces%20scan%20the%20world" target="_blank" rel="noopener">The Three Graces</a>, Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'david-head',
+    title: 'Head of Michelangelo’s David',
+    artist: 'Michelangelo',
+    kind: 'Head',
+    file: 'david-head.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-head-of-michelangelo-s-david-52645" target="_blank" rel="noopener">Head of Michelangelo’s David</a> (plaster cast, KAS 2232), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'laocoon',
+    title: 'Laocoön and His Sons',
+    artist: 'Hellenistic',
+    kind: 'Figure group',
+    file: 'laocoon.glb',
+    thumbZoom: 1.15,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-laocoon-and-his-sons-52652" target="_blank" rel="noopener">Laocoön and His Sons</a> (plaster cast, KAS 285), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'sleeping-bacchante',
+    title: 'Sleeping Bacchante',
+    artist: 'Reclining figure',
+    kind: 'Reclining figure',
+    file: 'sleeping-bacchante.glb',
+    view: { az: -20, el: 15 },
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=sleeping%20bacchante" target="_blank" rel="noopener">Sleeping Bacchante</a> (marble). Scan via MyMiniFactory',
+  },
+  {
+    id: 'einstein',
+    title: 'Einstein',
+    artist: 'Artur Loewenthal',
+    kind: 'Portrait head',
+    blurb: 'A bronze portrait head with a lined, characterful face.',
+    file: 'einstein.glb',
+    credit:
+      '<a href="https://threedscans.com/lincoln/einstein/" target="_blank" rel="noopener">Einstein</a> by Artur Loewenthal (20th century, bronze), The Collection, Lincoln. Scan: Three D Scans',
+  },
+  {
     id: 'enfant',
     title: 'Enfant au Chien',
     artist: 'Roman, 1st century',
@@ -147,16 +197,6 @@ export const MODELS = [
     thumbZoom: 1.15,
     credit:
       '<a href="https://threedscans.com/institut-fur-klassische-archaologie/child-with-goose/" target="_blank" rel="noopener">Child with Goose</a> after Boethus (plaster copy of the marble original), Institut für Klassische Archäologie, Vienna. Scan: Three D Scans',
-  },
-  {
-    id: 'einstein',
-    title: 'Einstein',
-    artist: 'Artur Loewenthal',
-    kind: 'Portrait head',
-    blurb: 'A bronze portrait head with a lined, characterful face.',
-    file: 'einstein.glb',
-    credit:
-      '<a href="https://threedscans.com/lincoln/einstein/" target="_blank" rel="noopener">Einstein</a> by Artur Loewenthal (20th century, bronze), The Collection, Lincoln. Scan: Three D Scans',
   },
   {
     id: 'elssler-foot',
@@ -465,17 +505,6 @@ export const MODELS = [
       '<a href="https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052" target="_blank" rel="noopener">David</a> by Michelangelo (1501–1504, marble), Galleria dell’Accademia, Florence. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
   },
   {
-    id: 'sleeping-bacchante',
-    title: 'Sleeping Bacchante',
-    artist: 'Reclining figure',
-    kind: 'Reclining figure',
-    file: 'sleeping-bacchante.glb',
-    view: { az: -20, el: 15 },
-    thumbZoom: 1.2,
-    credit:
-      '<a href="https://www.myminifactory.com/search?query=sleeping%20bacchante" target="_blank" rel="noopener">Sleeping Bacchante</a> (marble). Scan via MyMiniFactory',
-  },
-  {
     id: 'discobolus',
     title: 'Townley Discobolus',
     artist: 'After Myron',
@@ -523,35 +552,6 @@ export const MODELS = [
     file: 'farnese-head.glb',
     credit:
       '<a href="https://open.smk.dk/en/artwork/image/KAS701" target="_blank" rel="noopener">Head of the Farnese Hercules</a> (plaster cast, KAS 701), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
-  },
-  {
-    id: 'david-head',
-    title: 'Head of Michelangelo’s David',
-    artist: 'Michelangelo',
-    kind: 'Head',
-    file: 'david-head.glb',
-    credit:
-      '<a href="https://www.myminifactory.com/object/3d-print-head-of-michelangelo-s-david-52645" target="_blank" rel="noopener">Head of Michelangelo’s David</a> (plaster cast, KAS 2232), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
-  },
-  {
-    id: 'laocoon',
-    title: 'Laocoön and His Sons',
-    artist: 'Hellenistic',
-    kind: 'Figure group',
-    file: 'laocoon.glb',
-    thumbZoom: 1.15,
-    credit:
-      '<a href="https://www.myminifactory.com/object/3d-print-laocoon-and-his-sons-52652" target="_blank" rel="noopener">Laocoön and His Sons</a> (plaster cast, KAS 285), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
-  },
-  {
-    id: 'three-graces',
-    title: 'The Three Graces',
-    artist: 'Figure group',
-    kind: 'Figure group',
-    file: 'three-graces.glb',
-    thumbZoom: 1.2,
-    credit:
-      '<a href="https://www.myminifactory.com/search?query=three%20graces%20scan%20the%20world" target="_blank" rel="noopener">The Three Graces</a>, Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
   },
   {
     id: 'nymph',
