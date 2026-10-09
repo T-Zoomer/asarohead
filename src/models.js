@@ -36,16 +36,13 @@ export const MODELS = [
       'by François Joseph Bosio, Nouveau Musée National de Monaco. Scan: Three D Scans',
   },
   {
-    id: 'nymph',
-    title: 'Nymph Preparing for the Bath',
-    artist: 'John Gibson',
-    kind: 'Seated figure',
-    blurb: 'A full seated figure in marble, for gesture, proportion and the figure in light.',
-    file: 'nymph.glb',
-    thumbZoom: 1.45,
+    id: 'uffizi-torso',
+    title: 'Torso',
+    artist: 'Uffizi, Florence',
+    kind: 'Torso',
+    file: 'uffizi-torso.glb',
     credit:
-      '<a href="https://threedscans.com/lincoln/nymph/" target="_blank" rel="noopener">Nymph Preparing for the Bath</a> ' +
-      'by John Gibson, The Usher Gallery, Lincoln. Scan: Three D Scans',
+      '<a href="https://www.myminifactory.com/search?query=uffizi%20torso%20scan%20the%20world" target="_blank" rel="noopener">Torso</a>, Uffizi, Florence. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
   },
   {
     id: 'john-baptist',
@@ -557,13 +554,16 @@ export const MODELS = [
       '<a href="https://www.myminifactory.com/search?query=three%20graces%20scan%20the%20world" target="_blank" rel="noopener">The Three Graces</a>, Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
   },
   {
-    id: 'uffizi-torso',
-    title: 'Torso',
-    artist: 'Uffizi, Florence',
-    kind: 'Torso',
-    file: 'uffizi-torso.glb',
+    id: 'nymph',
+    title: 'Nymph Preparing for the Bath',
+    artist: 'John Gibson',
+    kind: 'Seated figure',
+    blurb: 'A full seated figure in marble, for gesture, proportion and the figure in light.',
+    file: 'nymph.glb',
+    thumbZoom: 1.45,
     credit:
-      '<a href="https://www.myminifactory.com/search?query=uffizi%20torso%20scan%20the%20world" target="_blank" rel="noopener">Torso</a>, Uffizi, Florence. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+      '<a href="https://threedscans.com/lincoln/nymph/" target="_blank" rel="noopener">Nymph Preparing for the Bath</a> ' +
+      'by John Gibson, The Usher Gallery, Lincoln. Scan: Three D Scans',
   },
 ];
 
