@@ -373,6 +373,198 @@ export const MODELS = [
       '<a href="https://threedscans.com/museo-archeologico-nazionale/efebo/" target="_blank" rel="noopener">Efebo (Idolino from Pesaro)</a> ' +
       '(c. 30 BCE, bronze), Museo Archeologico Nazionale, Florence. Scan: Three D Scans',
   },
+  {
+    id: 'venus-italica',
+    title: 'Venus Italica',
+    artist: 'After Antonio Canova',
+    kind: 'Bust',
+    file: 'venus-italica.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-venus-italica-102804" target="_blank" rel="noopener">Venus Italica</a> after Antonio Canova (plaster cast), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'genius-hand',
+    title: 'Hand of the Genius of Liberty',
+    artist: 'After François Rude',
+    kind: 'Hand',
+    file: 'genius-hand.glb',
+    view: { az: 0, el: 5 },
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-hand-of-the-genius-of-liberty-la-marseillaise-143732" target="_blank" rel="noopener">Hand of the Genius of Liberty</a> from La Marseillaise, after François Rude (plaster cast). Scan: Scan the World',
+  },
+  {
+    id: 'alexander-helios',
+    title: 'Alexander as Helios',
+    artist: 'Roman copy of a Hellenistic head',
+    kind: 'Head',
+    file: 'alexander-helios.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-ideal-portrait-of-alexander-the-great-as-helios-100249" target="_blank" rel="noopener">Alexander as Helios</a> (plaster cast, KAS 283), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'athlete-python',
+    title: 'Athlete Wrestling a Python',
+    artist: 'Frederic Leighton, 1877',
+    kind: 'Standing figure',
+    file: 'athlete-python.glb',
+    thumbZoom: 1.25,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-athlete-wrestling-a-python-3253" target="_blank" rel="noopener">Athlete Wrestling a Python</a> by Frederic Leighton (1877, bronze), Tate Britain, London. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'bearded-man',
+    title: 'Head of a Bearded Old Man',
+    artist: 'Victoria and Albert Museum',
+    kind: 'Bust',
+    file: 'bearded-man.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-head-of-a-bearded-old-man-24136" target="_blank" rel="noopener">Head of a Bearded Old Man</a>, Victoria and Albert Museum, London. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'medusa',
+    title: 'Bust of Medusa',
+    artist: 'Gian Lorenzo Bernini',
+    kind: 'Bust',
+    file: 'medusa.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-medusa-at-the-musei-capitolini-rome-17660" target="_blank" rel="noopener">Bust of Medusa</a> by Gian Lorenzo Bernini, Musei Capitolini, Rome. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'diana',
+    title: 'Diana',
+    artist: 'After Frilli',
+    kind: 'Standing figure',
+    file: 'diana.glb',
+    thumbZoom: 1.3,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-diana-86065" target="_blank" rel="noopener">Diana</a> after Frilli. Scan: Jadyn N. Marshall. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'marcus-aurelius',
+    title: 'Marcus Aurelius',
+    artist: 'Roman portrait bust',
+    kind: 'Portrait bust',
+    file: 'marcus-aurelius.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=marcus%20aurelius" target="_blank" rel="noopener">Marcus Aurelius</a> (Roman portrait bust). Scan via MyMiniFactory',
+  },
+  {
+    id: 'trotting-horse',
+    title: 'Trotting Horse',
+    artist: 'Nationalmuseum, Stockholm',
+    kind: 'Animal',
+    file: 'trotting-horse.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=trotting%20horse%20nationalmuseum" target="_blank" rel="noopener">Trotting Horse</a>, Nationalmuseum, Stockholm. Scan via MyMiniFactory',
+  },
+  {
+    id: 'david',
+    title: 'David',
+    artist: 'Michelangelo',
+    kind: 'Standing figure',
+    file: 'david.glb',
+    thumbZoom: 1.3,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052" target="_blank" rel="noopener">David</a> by Michelangelo (1501–1504, marble), Galleria dell’Accademia, Florence. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'sleeping-bacchante',
+    title: 'Sleeping Bacchante',
+    artist: 'Reclining figure',
+    kind: 'Reclining figure',
+    file: 'sleeping-bacchante.glb',
+    view: { az: -20, el: 15 },
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=sleeping%20bacchante" target="_blank" rel="noopener">Sleeping Bacchante</a> (marble). Scan via MyMiniFactory',
+  },
+  {
+    id: 'discobolus',
+    title: 'Townley Discobolus',
+    artist: 'After Myron',
+    kind: 'Standing figure',
+    file: 'discobolus.glb',
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-townley-discobolus-the-discus-thrower-25156" target="_blank" rel="noopener">Townley Discobolus</a> after Myron (plaster cast, KAS 1074), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'moses',
+    title: 'Moses',
+    artist: 'Michelangelo',
+    kind: 'Seated figure',
+    file: 'moses.glb',
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-moses-271189" target="_blank" rel="noopener">Moses</a> by Michelangelo (plaster cast, KAS 243), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'augustus',
+    title: 'Augustus of Prima Porta',
+    artist: 'Roman, 1st century',
+    kind: 'Standing figure',
+    file: 'augustus.glb',
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-augustus-of-prima-porta-264761" target="_blank" rel="noopener">Augustus of Prima Porta</a> (plaster cast, KAS 65), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'venus-de-milo',
+    title: 'Venus de Milo',
+    artist: 'Hellenistic',
+    kind: 'Standing figure',
+    file: 'venus-de-milo.glb',
+    thumbZoom: 1.25,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-venus-aphrodite-is-the-goddess-of-love-she-was-depicted-in-the-nude-or-in-various-stages-of-nudity-and-painted-the-figure-is-executed-in-the-hellenistic-style-and-famed-for-its-sensuous-appearance-it-supposedly-lost-its-arms-in-a-struggle-arising-b-25162" target="_blank" rel="noopener">Venus de Milo</a> (plaster cast), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'farnese-head',
+    title: 'Head of the Farnese Hercules',
+    artist: 'After Lysippos',
+    kind: 'Bust',
+    file: 'farnese-head.glb',
+    credit:
+      '<a href="https://open.smk.dk/en/artwork/image/KAS701" target="_blank" rel="noopener">Head of the Farnese Hercules</a> (plaster cast, KAS 701), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'david-head',
+    title: 'Head of Michelangelo’s David',
+    artist: 'Michelangelo',
+    kind: 'Head',
+    file: 'david-head.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-head-of-michelangelo-s-david-52645" target="_blank" rel="noopener">Head of Michelangelo’s David</a> (plaster cast, KAS 2232), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'laocoon',
+    title: 'Laocoön and His Sons',
+    artist: 'Hellenistic',
+    kind: 'Figure group',
+    file: 'laocoon.glb',
+    thumbZoom: 1.15,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-laocoon-and-his-sons-52652" target="_blank" rel="noopener">Laocoön and His Sons</a> (plaster cast, KAS 285), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'three-graces',
+    title: 'The Three Graces',
+    artist: 'Figure group',
+    kind: 'Figure group',
+    file: 'three-graces.glb',
+    thumbZoom: 1.2,
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=three%20graces%20scan%20the%20world" target="_blank" rel="noopener">The Three Graces</a>, Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
+  {
+    id: 'uffizi-torso',
+    title: 'Torso',
+    artist: 'Uffizi, Florence',
+    kind: 'Torso',
+    file: 'uffizi-torso.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/search?query=uffizi%20torso%20scan%20the%20world" target="_blank" rel="noopener">Torso</a>, Uffizi, Florence. Scan: Scan the World. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, converted for the web',
+  },
 ];
 
 export const modelById = (id) => MODELS.find((m) => m.id === id);

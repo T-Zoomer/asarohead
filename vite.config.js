@@ -23,10 +23,11 @@ function galleryHtml() {
   ).join('\n        ');
 }
 
-// The About page's list of scan credits, built from src/models.js.
+// The About page's list of scan credits, built from src/models.js. The Asaro
+// head has its own paragraph there.
 function creditsHtml() {
-  return MODELS.filter((m) => m.credit.includes('threedscans.com'))
-    .map((m) => `<li>${m.credit.replace(/\. Scan: Three D Scans$/, '')}</li>`)
+  return MODELS.filter((m) => m.id !== 'asaro')
+    .map((m) => `<li>${m.credit}</li>`)
     .join('\n        ');
 }
 

@@ -28,3 +28,14 @@ copyright restrictions; reoriented (and for neptune and enfant, simplified) from
 All other .glb files here are scans from Three D Scans (https://threedscans.com), free to use
 without copyright restrictions, reoriented and, above 1.5M triangles, simplified for the web.
 Each one's source page and credit is in src/models.js and on the site's About page.
+
+Scans from MyMiniFactory / Scan the World (added later) keep their source license:
+- SMK, the National Gallery of Denmark, casts (venus-italica, alexander-helios, discobolus, moses,
+  augustus, venus-de-milo, farnese-head, david-head, laocoon): Public Domain Mark.
+- athlete-python, bearded-man, medusa, diana, david, three-graces, uffizi-torso: CC BY-NC-SA 4.0
+  (https://creativecommons.org/licenses/by-nc-sa/4.0/). These converted files are modified
+  (reoriented, simplified to at most 1.5M triangles, normals recomputed) and are shared under the
+  same CC BY-NC-SA 4.0 license.
+- genius-hand, marcus-aurelius, trotting-horse, sleeping-bacchante: as stated on their source pages
+  on MyMiniFactory; used non-commercially with credit.
+Each model's credit and source link is in src/models.js and on the site's About page.

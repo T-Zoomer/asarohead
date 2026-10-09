@@ -47,7 +47,11 @@ their sockets, and simplifies the result from 239k to about 6k triangles
 on the model's page if you deploy this.
 
 **Sculpture scans.** From [Three D Scans](https://threedscans.com), which
-publishes its scans free to use without copyright restrictions. They keep
+publishes its scans free to use without copyright restrictions, and from
+[Scan the World](https://www.myminifactory.com/scantheworld/) on MyMiniFactory
+(public domain SMK casts, and CC BY-NC-SA scans whose converted files keep
+that license; see `public/models/LICENSE.txt`). Don't add MyMiniFactory
+Exclusive models: their license forbids hosting them elsewhere. They keep
 their full resolution up to 1.5M triangles (larger scans are simplified to
 that), with smooth normals computed from the full mesh.
 

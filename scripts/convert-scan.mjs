@@ -256,68 +256,235 @@ const SCANS = {
     ],
     height: 2,
   },
+  'venus-italica': {
+    // https://www.myminifactory.com/object/3d-print-venus-italica-102804
+    src: '10-smk-venus-italica-kas-dep1-bust.stl',
+    // Z-up, front toward +x.
+    rotate: ([x, y, z]) => [y, z, x],
+    height: 2,
+  },
+  'genius-hand': {
+    // https://www.myminifactory.com/object/3d-print-hand-of-the-genius-of-liberty-la-marseillaise-143732
+    src: '7621-cap-hand-2.stl',
+    // The fingers point along +x and the back of the hand faces -y. Hang the
+    // fingers down (+x to -y) with the back of the hand toward +z.
+    rotate: ([x, y, z]) => [z, -x, -y],
+    height: 2,
+  },
+  'alexander-helios': {
+    // https://www.myminifactory.com/object/3d-print-ideal-portrait-of-alexander-the-great-as-helios-100249
+    src: '84-smk-alexander-as-helios-inv-283.stl',
+    // Z-up, front toward -x.
+    rotate: ([x, y, z]) => [-y, z, -x],
+    height: 2,
+  },
+  'athlete-python': {
+    // https://www.myminifactory.com/object/3d-print-athlete-wrestling-a-python-3253
+    src: 'athlete-wrestling-a-python-at-the-tate-britain-london-1.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'bearded-man': {
+    // https://www.myminifactory.com/object/3d-print-head-of-a-bearded-old-man-24136
+    src: 'bearded-man-d.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'medusa': {
+    // https://www.myminifactory.com/object/3d-print-medusa-at-the-musei-capitolini-rome-17660
+    src: 'bust-of-medusa-at-the-musei-capitolini-rome-1.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'diana': {
+    // https://www.myminifactory.com/object/3d-print-diana-86065
+    src: 'jadyn-sotheby-s-diana.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'marcus-aurelius': {
+    // https://www.myminifactory.com/search?query=marcus%20aurelius
+    src: 'marcus-aurelius-1.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'trotting-horse': {
+    // https://www.myminifactory.com/search?query=trotting%20horse%20nationalmuseum
+    src: 'nms-drhsk0064-trotting-horse.stl',
+    // Z-up, front toward +x.
+    rotate: ([x, y, z]) => [y, z, x],
+    height: 2,
+  },
+  'david': {
+    // https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052
+    src: 'scan-the-world-michelangelo-s-david.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'sleeping-bacchante': {
+    // https://www.myminifactory.com/search?query=sleeping%20bacchante
+    src: 'sleeping-bacchante.stl',
+    // Z-up, front toward -y; she reclines along x.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'discobolus': {
+    // https://www.myminifactory.com/object/3d-print-townley-discobolus-the-discus-thrower-25156
+    src: 'smk-kas1074-discobolus-decimated.stl',
+    // Z-up, the classic side view toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'moses': {
+    // https://www.myminifactory.com/object/3d-print-moses-271189
+    src: 'smk-kas243-moses.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'augustus': {
+    // https://www.myminifactory.com/object/3d-print-augustus-of-prima-porta-264761
+    src: 'smk-kas65-augustus-prima-porta.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'venus-de-milo': {
+    // https://www.myminifactory.com/object/3d-print-venus-aphrodite-is-the-goddess-of-love-she-was-depicted-in-the-nude-or-in-various-stages-of-nudity-and-painted-the-figure-is-executed-in-the-hellenistic-style-and-famed-for-its-sensuous-appearance-it-supposedly-lost-its-arms-in-a-struggle-arising-b-25162
+    src: 'smk-venus-de-milo.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'farnese-head': {
+    // https://open.smk.dk/en/artwork/image/KAS701
+    src: 'smk26-kas701-head-from-farnese-hercules.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'david-head': {
+    // https://www.myminifactory.com/object/3d-print-head-of-michelangelo-s-david-52645
+    src: 'smk55-kas2232-head-of-david.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'laocoon': {
+    // https://www.myminifactory.com/object/3d-print-laocoon-and-his-sons-52652
+    src: 'smk57-kas285-laocoon-group-decimated.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'three-graces': {
+    // https://www.myminifactory.com/search?query=three%20graces%20scan%20the%20world
+    src: 'the-three-graces-1.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'uffizi-torso': {
+    // https://www.myminifactory.com/search?query=uffizi%20torso%20scan%20the%20world
+    src: 'uffizi-torso-5.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
 };
 
 const SRC_DIR = new URL('../3d_model files/', import.meta.url);
 const OUT_DIR = new URL('../public/models/', import.meta.url);
 
-// Returns { verts: [[x, y, z], ...], faces: [a, b, c, ...] }.
+// Both readers return { positions: Float64Array (x, y, z per vertex),
+// faces: Uint32Array (three vertex indices per triangle) }. Positions stay
+// 64-bit until the end, so rotating and scaling round only once.
 function readObj(path) {
   const verts = [];
   const faces = [];
   for (const line of readFileSync(path, 'utf8').split('\n')) {
     if (line.startsWith('v ')) {
       const [, x, y, z] = line.split(/\s+/).map(Number);
-      verts.push([x, y, z]);
+      verts.push(x, y, z);
     } else if (line.startsWith('f ')) {
       const idx = line.trim().split(/\s+/).slice(1).map((p) => parseInt(p, 10) - 1);
       for (let i = 1; i < idx.length - 1; i++) faces.push(idx[0], idx[i], idx[i + 1]);
     }
   }
-  return { verts, faces };
+  return { positions: new Float64Array(verts), faces: new Uint32Array(faces) };
 }
 
 // Binary STL stores three separate corners per triangle. Merge corners at the
 // same position so the mesh is connected and its normals come out smooth.
+// An open-addressing hash table on typed arrays keeps this lean enough for
+// 10M-triangle scans.
 function readStl(path) {
   const buf = readFileSync(path);
   const count = buf.readUInt32LE(80);
-  const ids = new Map();
-  const verts = [];
-  const faces = [];
+  const corners = count * 3;
+  let size = 1;
+  while (size < corners * 2) size *= 2;
+  const table = new Int32Array(size).fill(-1);
+  const positions = new Float64Array(corners * 3);
+  const faces = new Uint32Array(corners);
+  const v = new Float32Array(3);
+  const bits = new Uint32Array(v.buffer);
+  let n = 0;
   for (let i = 0; i < count; i++) {
-    const o = 84 + i * 50 + 12;
     for (let k = 0; k < 3; k++) {
-      const v = [buf.readFloatLE(o + k * 12), buf.readFloatLE(o + k * 12 + 4), buf.readFloatLE(o + k * 12 + 8)];
-      const key = v.join(',');
-      if (!ids.has(key)) {
-        ids.set(key, verts.length);
-        verts.push(v);
+      const o = 84 + i * 50 + 12 + k * 12;
+      v[0] = buf.readFloatLE(o);
+      v[1] = buf.readFloatLE(o + 4);
+      v[2] = buf.readFloatLE(o + 8);
+      let h = Math.imul(bits[0], 0x9e3779b1) ^ Math.imul(bits[1], 0x85ebca77) ^ Math.imul(bits[2], 0xc2b2ae3d);
+      h = (h ^ (h >>> 15)) & (size - 1);
+      for (;;) {
+        const j = table[h];
+        if (j === -1) {
+          table[h] = n;
+          positions.set(v, n * 3);
+          faces[i * 3 + k] = n++;
+          break;
+        }
+        if (positions[j * 3] === v[0] && positions[j * 3 + 1] === v[1] && positions[j * 3 + 2] === v[2]) {
+          faces[i * 3 + k] = j;
+          break;
+        }
+        h = (h + 1) & (size - 1);
       }
-      faces.push(ids.get(key));
     }
   }
-  return { verts, faces };
+  return { positions: positions.slice(0, n * 3), faces };
 }
 
 async function convert(name, scan) {
   const path = new URL(scan.src, SRC_DIR);
-  const { verts, faces } = scan.src.toLowerCase().endsWith('.stl') ? readStl(path) : readObj(path);
-  const rotated = verts.map(scan.rotate);
+  const { positions: source, faces } = scan.src.toLowerCase().endsWith('.stl') ? readStl(path) : readObj(path);
+  const positions = new Float32Array(source.length);
 
-  // Center on x and z, stand the base on y = 0, scale to the target height.
+  // Rotate upright, then center on x and z, stand the base on y = 0, and
+  // scale to the target height.
   const min = [Infinity, Infinity, Infinity];
   const max = [-Infinity, -Infinity, -Infinity];
-  for (const v of rotated) for (let k = 0; k < 3; k++) {
-    min[k] = Math.min(min[k], v[k]);
-    max[k] = Math.max(max[k], v[k]);
+  for (let i = 0; i < source.length; i += 3) {
+    const r = scan.rotate([source[i], source[i + 1], source[i + 2]]);
+    for (let k = 0; k < 3; k++) {
+      source[i + k] = r[k];
+      min[k] = Math.min(min[k], r[k]);
+      max[k] = Math.max(max[k], r[k]);
+    }
   }
   const scale = scan.height / (max[1] - min[1]);
   const offset = [-(min[0] + max[0]) / 2, -min[1], -(min[2] + max[2]) / 2];
-  const positions = new Float32Array(rotated.length * 3);
-  rotated.forEach((v, i) => {
-    for (let k = 0; k < 3; k++) positions[i * 3 + k] = (v[k] + offset[k]) * scale;
-  });
+  for (let i = 0; i < source.length; i += 3) {
+    for (let k = 0; k < 3; k++) positions[i + k] = (source[i + k] + offset[k]) * scale;
+  }
 
   // Area-weighted smooth normals: the unnormalized cross product makes
   // larger faces count for more.
@@ -344,7 +511,7 @@ async function convert(name, scan) {
     .createPrimitive()
     .setAttribute('POSITION', doc.createAccessor().setType('VEC3').setArray(positions).setBuffer(buffer))
     .setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(normals).setBuffer(buffer))
-    .setIndices(doc.createAccessor().setType('SCALAR').setArray(new Uint32Array(faces)).setBuffer(buffer))
+    .setIndices(doc.createAccessor().setType('SCALAR').setArray(faces).setBuffer(buffer))
     .setMaterial(doc.createMaterial('marble').setBaseColorFactor([0.9, 0.9, 0.88, 1]).setRoughnessFactor(0.9));
   doc.createScene().addChild(doc.createNode(name).setMesh(doc.createMesh(name).addPrimitive(prim)));
 
