@@ -227,6 +227,19 @@ const SCANS = {
     // Upside down (up is -y), front toward -z.
     rotate: ([x, y, z]) => [x, -y, -z],
     height: 2,
+  },  rhino: {
+    // https://threedscans.com/depot-des-sculptures-de-la-ville-de-paris/rhino/
+    src: 'Alfred Jacquemart.OBJ',
+    // Upside down along z (the base is at +z), head toward -y.
+    rotate: ([x, y, z]) => [-x, -z, -y],
+    height: 2,
+  },
+  eagle: {
+    // https://threedscans.com/saint-louis-art-museum/striding-eagle/
+    src: 'Eagle_custom_Normals.obj',
+    // Y-up, front toward +x.
+    rotate: ([x, y, z]) => [-z, y, x],
+    height: 2,
   },
 };
 

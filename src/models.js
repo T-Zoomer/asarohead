@@ -338,6 +338,29 @@ export const MODELS = [
     credit:
       '<a href="https://threedscans.com/lincoln/venus-and-cupid/" target="_blank" rel="noopener">Venus Kissing Cupid</a> by John Gibson (19th century, marble), The Usher Gallery, Lincoln. Scan: Three D Scans',
   },
+  {
+    id: 'rhino',
+    title: 'Rhinocéros',
+    artist: 'Henri-Alfred Jacquemart, 1878',
+    kind: 'Animal',
+    blurb: 'A massive, armoured rhinoceros, for heavy forms and folds of skin.',
+    file: 'rhino.glb',
+    view: { az: 55, el: 12 },
+    credit:
+      '<a href="https://threedscans.com/depot-des-sculptures-de-la-ville-de-paris/rhino/" target="_blank" rel="noopener">Rhinocéros</a> ' +
+      'by Henri-Alfred Jacquemart (1878, plaster), Dépôt des sculptures de la Ville de Paris. Scan: Three D Scans',
+  },
+  {
+    id: 'eagle',
+    title: 'Striding Eagle',
+    artist: '16th century',
+    kind: 'Animal',
+    blurb: 'A marble eagle with half-open wings and carved feathers.',
+    file: 'eagle.glb',
+    credit:
+      '<a href="https://threedscans.com/saint-louis-art-museum/striding-eagle/" target="_blank" rel="noopener">Striding Eagle</a> ' +
+      '(16th century, marble), Saint Louis Art Museum. Scan: Three D Scans',
+  },
 ];
 
 export const modelById = (id) => MODELS.find((m) => m.id === id);
