@@ -74,7 +74,8 @@ const SCANS = {
     // Already y-up, lying along x with the head toward -x.
     rotate: ([x, y, z]) => [x, y, z],
     height: 1.2,
-  },  'triton': {
+  },
+  'triton': {
     // https://threedscans.com/ferdinandeum-innsbruck/triton/
     src: '200720_Triton 2.OBJ',
     // Upside down (up is -y), front toward -z.
@@ -227,7 +228,8 @@ const SCANS = {
     // Upside down (up is -y), front toward -z.
     rotate: ([x, y, z]) => [x, -y, -z],
     height: 2,
-  },  rhino: {
+  },
+  rhino: {
     // https://threedscans.com/depot-des-sculptures-de-la-ville-de-paris/rhino/
     src: 'Alfred Jacquemart.OBJ',
     // Upside down along z (the base is at +z), head toward -y.
@@ -239,6 +241,19 @@ const SCANS = {
     src: 'Eagle_custom_Normals.obj',
     // Y-up, front toward +x.
     rotate: ([x, y, z]) => [-z, y, x],
+    height: 2,
+  },
+  ephebe: {
+    // https://threedscans.com/museo-archeologico-nazionale/efebo/
+    src: 'Ephebe.obj',
+    // Scanned tilted about 46° off any axis. This rotation takes the normal
+    // of the plinth's flat underside (fitted to the scan) to +y; he then
+    // faces +z.
+    rotate: ([x, y, z]) => [
+      0.99762 * x - 0.02708 * y + 0.06340 * z,
+      0.02708 * x - 0.69174 * y - 0.72164 * z,
+      0.06340 * x + 0.72164 * y - 0.68936 * z,
+    ],
     height: 2,
   },
 };

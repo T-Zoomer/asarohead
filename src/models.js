@@ -361,6 +361,18 @@ export const MODELS = [
       '<a href="https://threedscans.com/saint-louis-art-museum/striding-eagle/" target="_blank" rel="noopener">Striding Eagle</a> ' +
       '(16th century, marble), Saint Louis Art Museum. Scan: Three D Scans',
   },
+  {
+    id: 'ephebe',
+    title: 'Idolino from Pesaro',
+    artist: 'Efebo, c. 30 BCE',
+    kind: 'Standing figure',
+    blurb: 'A standing bronze youth in gentle contrapposto.',
+    file: 'ephebe.glb',
+    thumbZoom: 1.3,
+    credit:
+      '<a href="https://threedscans.com/museo-archeologico-nazionale/efebo/" target="_blank" rel="noopener">Efebo (Idolino from Pesaro)</a> ' +
+      '(c. 30 BCE, bronze), Museo Archeologico Nazionale, Florence. Scan: Three D Scans',
+  },
 ];
 
 export const modelById = (id) => MODELS.find((m) => m.id === id);
