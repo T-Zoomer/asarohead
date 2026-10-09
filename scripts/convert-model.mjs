@@ -13,6 +13,7 @@ import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { weld, simplify, dedup, prune, meshopt } from '@gltf-transform/functions';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
+import { bakeAO } from './ao.mjs';
 
 const SRC = new URL('../model-src/', import.meta.url);
 const OUT = new URL('../public/models/asaro-head.glb', import.meta.url);
@@ -193,8 +194,9 @@ await doc.transform(
   simplify({ simplifier: MeshoptSimplifier, ratio: 0, error: 0.0004, lockBorder: true }),
   dedup(),
   prune(),
-  meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
 );
+await bakeAO(doc);
+await doc.transform(meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
 
 const triCount = prim.getIndices().getCount() / 3;
 mkdirSync(new URL('../public/models/', import.meta.url), { recursive: true });

@@ -10,13 +10,15 @@
 //
 // Scans keep their full resolution up to MAX_TRIS; larger ones are
 // simplified to it. Smooth normals are computed from the full mesh first, so
-// the viewer shades every model like the original scan.
+// the viewer shades every model like the original scan. Ambient occlusion is
+// baked in last (scripts/ao.mjs).
 
 import { readFileSync, mkdirSync } from 'node:fs';
 import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, prune, meshopt, simplify, weld } from '@gltf-transform/functions';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
+import { bakeAO } from './ao.mjs';
 
 // Above this, files pass 10 MB and load slowly; with full-resolution normals
 // the simplified mesh looks the same.
@@ -108,13 +110,6 @@ const SCANS = {
     src: 'Einstein.stl',
     // Upside down (up is -y), front toward -z.
     rotate: ([x, y, z]) => [x, -y, -z],
-    height: 2,
-  },
-  'elssler-foot': {
-    // https://threedscans.com/theater-museum/fanny-elssler/
-    src: 'Fuß-Fanny-Elssler_mehr_Details-50T.stl',
-    // Up is -z.
-    rotate: ([x, y, z]) => [x, -z, y],
     height: 2,
   },
   'drame-au-desert': {
@@ -355,13 +350,6 @@ const SCANS = {
     rotate: ([x, y, z]) => [x, z, -y],
     height: 2,
   },
-  'venus-de-milo': {
-    // https://www.myminifactory.com/object/3d-print-venus-aphrodite-is-the-goddess-of-love-she-was-depicted-in-the-nude-or-in-various-stages-of-nudity-and-painted-the-figure-is-executed-in-the-hellenistic-style-and-famed-for-its-sensuous-appearance-it-supposedly-lost-its-arms-in-a-struggle-arising-b-25162
-    src: 'smk-venus-de-milo.stl',
-    // Z-up, front toward -y.
-    rotate: ([x, y, z]) => [x, z, -y],
-    height: 2,
-  },
   'farnese-head': {
     // https://open.smk.dk/en/artwork/image/KAS701
     src: 'smk26-kas701-head-from-farnese-hercules.stl',
@@ -393,6 +381,13 @@ const SCANS = {
   'uffizi-torso': {
     // https://www.myminifactory.com/search?query=uffizi%20torso%20scan%20the%20world
     src: 'uffizi-torso-5.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'girl-kittens': {
+    // https://www.myminifactory.com/object/3d-print-a-little-girl-with-kittens-105328
+    src: 'smk-kms5471-girl-with-cats.stl',
     // Z-up, front toward -y.
     rotate: ([x, y, z]) => [x, z, -y],
     height: 2,
@@ -517,7 +512,9 @@ async function convert(name, scan) {
 
   const tris = faces.length / 3;
   const reduce = tris > MAX_TRIS ? [weld(), simplify({ simplifier: MeshoptSimplifier, ratio: MAX_TRIS / tris, error: 0.01 })] : [];
-  await doc.transform(...reduce, dedup(), prune(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
+  await doc.transform(...reduce, dedup(), prune());
+  await bakeAO(doc);
+  await doc.transform(meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
 
   const out = new URL(`${name}.glb`, OUT_DIR);
   const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });

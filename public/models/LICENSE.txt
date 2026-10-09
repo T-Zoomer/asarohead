@@ -31,7 +31,8 @@ Each one's source page and credit is in src/models.js and on the site's About pa
 
 Scans from MyMiniFactory / Scan the World (added later) keep their source license:
 - SMK, the National Gallery of Denmark, casts (venus-italica, alexander-helios, discobolus, moses,
-  augustus, venus-de-milo, farnese-head, david-head, laocoon): Public Domain Mark.
+  augustus, farnese-head, david-head, laocoon) and the marble girl-kittens
+  (KMS5471): Public Domain Mark.
 - athlete-python, bearded-man, medusa, diana, david, three-graces, uffizi-torso: CC BY-NC-SA 4.0
   (https://creativecommons.org/licenses/by-nc-sa/4.0/). These converted files are modified
   (reoriented, simplified to at most 1.5M triangles, normals recomputed) and are shared under the

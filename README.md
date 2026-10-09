@@ -55,6 +55,12 @@ Exclusive models: their license forbids hosting them elsewhere. They keep
 their full resolution up to 1.5M triangles (larger scans are simplified to
 that), with smooth normals computed from the full mesh.
 
+**Ambient occlusion.** Both convert scripts bake ambient occlusion into each
+model as a per-vertex `_AO` attribute (`scripts/ao.mjs`), which the viewer
+uses to darken the ambient light in recesses. To re-bake models that are
+already converted, for example after changing its settings, run
+`npm run bake:ao` (or `npm run bake:ao -- <id>`).
+
 The full list, with sources and credits, is in `src/models.js` (and on the
 site's About page); the source file for each is in `SCANS` in
 `scripts/convert-scan.mjs`.

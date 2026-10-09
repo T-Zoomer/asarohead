@@ -68,6 +68,9 @@ key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048);
 key.shadow.bias = -0.0004;
 key.shadow.normalBias = 0.012;
+// Blur radius in shadow-map texels. The shadow camera is sized to the model,
+// so every model gets the same soft-but-defined edge of a studio lamp.
+key.shadow.radius = 4;
 Object.assign(key.shadow.camera, { left: -1.4, right: 1.4, top: 1.4, bottom: -1.4, near: 0.5, far: 12 });
 scene.add(key, key.target);
 
@@ -90,6 +93,29 @@ const marble = new THREE.MeshPhysicalMaterial({
   clearcoat: 0.25,
   clearcoatRoughness: 0.35,
 });
+
+// Ambient occlusion baked into each model's _ao attribute (scripts/ao.mjs)
+// darkens the ambient and environment light, as three's aoMap would.
+const aoFragment = THREE.ShaderChunk.aomap_fragment
+  .replace('#ifdef USE_AOMAP', '#if 1')
+  .replace('( texture2D( aoMap, vAoMapUv ).r - 1.0 ) * aoMapIntensity + 1.0', 'vAo');
+// It also stands in for shadows too small for the shadow map, such as inside
+// a nostril or an ear: in a cavity, direct light only gets in when it shines
+// straight in ("micro-shadowing", after The Last of Us). Open surfaces, with
+// an AO near 1, keep the full light.
+const lightsFragment = THREE.ShaderChunk.lights_fragment_begin.replaceAll(
+  'RE_Direct( directLight,',
+  'directLight.color *= saturate( abs( dot( geometryNormal, directLight.direction ) ) + 2.0 * vAo * vAo - 1.0 );\n\t\tRE_Direct( directLight,',
+);
+marble.onBeforeCompile = (shader) => {
+  shader.vertexShader = shader.vertexShader
+    .replace('#include <common>', '#include <common>\nattribute float _ao;\nvarying float vAo;')
+    .replace('#include <begin_vertex>', '#include <begin_vertex>\nvAo = _ao;');
+  shader.fragmentShader = shader.fragmentShader
+    .replace('#include <common>', '#include <common>\nvarying float vAo;')
+    .replace('#include <lights_fragment_begin>', lightsFragment)
+    .replace('#include <aomap_fragment>', aoFragment);
+};
 
 // ---------------------------------------------------------------------------
 // Model
@@ -125,6 +151,8 @@ if (model) {
       let geometry = source.geometry;
       if (model.crease) geometry = toCreasedNormals(geometry, model.crease * DEG);
       else if (!geometry.attributes.normal) geometry.computeVertexNormals();
+      // A model without baked occlusion counts as fully open.
+      if (!geometry.attributes._ao) geometry.setAttribute('_ao', new THREE.BufferAttribute(new Uint8Array(geometry.attributes.position.count).fill(255), 1, true));
       head.mesh = new THREE.Mesh(geometry, marble);
       // Quantized glTF positions carry their real scale and offset on the node.
       gltf.scene.updateMatrixWorld(true);

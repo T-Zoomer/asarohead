@@ -199,16 +199,6 @@ export const MODELS = [
       '<a href="https://threedscans.com/institut-fur-klassische-archaologie/child-with-goose/" target="_blank" rel="noopener">Child with Goose</a> after Boethus (plaster copy of the marble original), Institut für Klassische Archäologie, Vienna. Scan: Three D Scans',
   },
   {
-    id: 'elssler-foot',
-    title: 'Right Foot of Fanny Elssler',
-    artist: 'Félicie & Hippolyte de Fauveau, 1847',
-    kind: 'Foot',
-    blurb: 'A dancer’s foot in marble, for studying the structure of the foot.',
-    file: 'elssler-foot.glb',
-    credit:
-      '<a href="https://threedscans.com/theater-museum/fanny-elssler/" target="_blank" rel="noopener">Right Foot of the Dancer Fanny Elssler</a> by Félicie &amp; Hippolyte de Fauveau (1847, marble), Theatermuseum, Vienna. Scan: Three D Scans',
-  },
-  {
     id: 'drame-au-desert',
     title: 'Drame au désert',
     artist: 'Georges Gardet, 1887',
@@ -535,16 +525,6 @@ export const MODELS = [
       '<a href="https://www.myminifactory.com/object/3d-print-augustus-of-prima-porta-264761" target="_blank" rel="noopener">Augustus of Prima Porta</a> (plaster cast, KAS 65), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
   },
   {
-    id: 'venus-de-milo',
-    title: 'Venus de Milo',
-    artist: 'Hellenistic',
-    kind: 'Standing figure',
-    file: 'venus-de-milo.glb',
-    thumbZoom: 1.25,
-    credit:
-      '<a href="https://www.myminifactory.com/object/3d-print-venus-aphrodite-is-the-goddess-of-love-she-was-depicted-in-the-nude-or-in-various-stages-of-nudity-and-painted-the-figure-is-executed-in-the-hellenistic-style-and-famed-for-its-sensuous-appearance-it-supposedly-lost-its-arms-in-a-struggle-arising-b-25162" target="_blank" rel="noopener">Venus de Milo</a> (plaster cast), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
-  },
-  {
     id: 'farnese-head',
     title: 'Head of the Farnese Hercules',
     artist: 'After Lysippos',
@@ -552,6 +532,16 @@ export const MODELS = [
     file: 'farnese-head.glb',
     credit:
       '<a href="https://open.smk.dk/en/artwork/image/KAS701" target="_blank" rel="noopener">Head of the Farnese Hercules</a> (plaster cast, KAS 701), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'girl-kittens',
+    title: 'A Little Girl with Kittens',
+    artist: 'Jens Adolf Jerichau',
+    kind: 'Figure group',
+    file: 'girl-kittens.glb',
+    thumbZoom: 1.4,
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-a-little-girl-with-kittens-105328" target="_blank" rel="noopener">A Little Girl with Kittens</a> by Jens Adolf Jerichau (1856, marble, KMS 5471), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
   },
   {
     id: 'nymph',
