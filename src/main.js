@@ -5,6 +5,7 @@ import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createLightBall } from './light-ball.js';
+import { createLoader } from './loader.js';
 import { SITE_NAME, modelById } from './models.js';
 
 const DEG = Math.PI / 180;
@@ -145,6 +146,7 @@ if (model) {
   $('artist').textContent = model.artist;
   $('credit').innerHTML = model.credit;
 
+  const loader = createLoader($('loader'));
   new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(
     `${import.meta.env.BASE_URL}models/${model.id}.glb`,
     (gltf) => {
@@ -186,10 +188,12 @@ if (model) {
       controls.update();
       dirFromAngles(view.az + START_LIGHT.az, START_LIGHT.el, light);
       $('status').textContent = '';
+      loader.finish();
     },
-    undefined,
+    (e) => loader.progress(e.total ? e.loaded / e.total : null),
     (err) => {
       console.error(err);
+      loader.remove();
       $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
     },
   );

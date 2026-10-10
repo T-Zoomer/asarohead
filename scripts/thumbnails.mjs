@@ -39,7 +39,7 @@ const page = await browser.newPage({ viewport: { width: SIZE, height: SIZE } });
 async function render(query) {
   await page.goto(`${base}view/?${query}`);
   await page.addStyleTag({
-    content: '.brand, .controls, .credit, .status { display: none !important; } html, body { background: transparent !important; }',
+    content: '.brand, .controls, .credit, .status, .loader { display: none !important; } html, body { background: transparent !important; }',
   });
   await page.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 300000 });
   await page.waitForTimeout(1000); // let the orbit damping settle
