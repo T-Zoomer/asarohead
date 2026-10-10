@@ -8,7 +8,7 @@
 // crease: angle in degrees at which normals split into hard edges. The Asaro
 // head uses it to keep its planes flat; scans leave it out and shade smoothly.
 
-export const SITE_NAME = 'Cast Room';
+export const SITE_NAME = 'Light & Form';
 
 export const MODELS = [
   {

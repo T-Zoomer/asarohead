@@ -66,7 +66,9 @@ function site() {
       handler: (html) =>
         html
           .replace('<head>', `<head>${HEAD}`)
-          .replaceAll('__SITE_NAME__', SITE_NAME)
+          // Script contents aren't HTML-decoded, so JSON-LD gets the name raw.
+          .replaceAll('__SITE_NAME_JSON__', SITE_NAME)
+          .replaceAll('__SITE_NAME__', escape(SITE_NAME))
           .replaceAll('__SITE_URL__', SITE_URL)
           .replace('<!--gallery-->', galleryHtml())
           .replace('<!--credits-->', creditsHtml()),

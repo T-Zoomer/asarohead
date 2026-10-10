@@ -19,7 +19,7 @@ import { MODELS } from '../src/models.js';
 
 const SIZE = 600;
 const OUT = new URL('../public/thumbs/', import.meta.url);
-const SIDES_OUT = join(tmpdir(), 'cast-room-sides');
+const SIDES_OUT = join(tmpdir(), 'light-and-form-sides');
 
 const args = process.argv.slice(2);
 const sides = args.includes('--sides');

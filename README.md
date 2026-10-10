@@ -1,4 +1,4 @@
-# Cast Room
+# Light & Form
 
 Free 3D sculptures in the browser, for drawing reference. Pick a model, turn
 it, light it, and draw from it.
