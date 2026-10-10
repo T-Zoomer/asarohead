@@ -122,12 +122,18 @@ marble.onBeforeCompile = (shader) => {
 // ---------------------------------------------------------------------------
 // Model
 //
-// The page shows one model from src/models.js, picked by ?m=<id>. The crease
+// The page shows one model from src/models.js, picked by its path,
+// view/<id>/ (the build makes a page for each). Old view/?m=<id> links move
+// there, keeping any other parameters. The crease
 // angle splits normals where neighbouring faces turn sharply, which keeps the
 // Asaro planes flat with hard edges. Scans ship smooth normals in the GLB.
 
-const model = modelById(params.get('m'));
-if (!model) location.replace('../');
+const model = modelById(location.pathname.match(/view\/([a-z0-9-]+)\/?$/)?.[1] ?? params.get('m'));
+if (!model) location.replace(import.meta.env.BASE_URL);
+else if (params.has('m')) {
+  params.delete('m');
+  location.replace(`${import.meta.env.BASE_URL}view/${model.id}/${params.size ? `?${params}` : ''}`);
+}
 
 // The Asaro head is the reference size for lights, shadows and zoom limits.
 const REFERENCE_SIZE = 1.78;
@@ -138,10 +144,6 @@ const light = new THREE.Vector3(); // world-space direction toward the key light
 
 if (model) {
   document.title = `${model.title} – 3D drawing reference – ${SITE_NAME}`;
-  const canonical = document.createElement('link');
-  canonical.rel = 'canonical';
-  canonical.href = `${location.origin}${location.pathname}?m=${model.id}`;
-  document.head.append(canonical);
   $('title').textContent = model.title;
   $('artist').textContent = model.artist;
   $('credit').innerHTML = model.credit;

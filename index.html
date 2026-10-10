@@ -36,7 +36,7 @@
     </script>
     <script>
       // Old links went to the viewer with #<model> on this page.
-      if (/^#[a-z]+$/.test(location.hash)) location.replace('view/?m=' + location.hash.slice(1));
+      if (/^#[a-z]+$/.test(location.hash)) location.replace('view/' + location.hash.slice(1) + '/');
     </script>
     <link rel="stylesheet" href="/src/gallery.css" />
   </head>

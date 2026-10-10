@@ -4,7 +4,7 @@ Free 3D sculptures in the browser, for drawing reference. Pick a model, turn
 it, light it, and draw from it.
 
 - **Pick a model:** the home page is a gallery; each card opens the viewer
-  at `view/?m=<id>`.
+  at `view/<id>/`.
 - **Turn the model:** drag to orbit, scroll to zoom, right-drag to pan.
 - **Move the light:** drag the bright spot on the ball in the top right. The
   outer ring puts the light behind the model.

@@ -37,7 +37,7 @@ const page = await browser.newPage({ viewport: { width: SIZE, height: SIZE } });
 
 // Loads the viewer with the given query and returns a PNG of the model alone.
 async function render(query) {
-  await page.goto(`${base}view/?${query}`);
+  await page.goto(`${base}view/${query}`);
   await page.addStyleTag({
     content: '.brand, .controls, .credit, .status, .loader { display: none !important; } html, body { background: transparent !important; }',
   });
@@ -72,11 +72,11 @@ for (const model of models) {
   let path;
   if (sides) {
     const pngs = [];
-    for (const az of [0, 90, 180, 270]) pngs.push(await render(`m=${model.id}&az=${az}`));
+    for (const az of [0, 90, 180, 270]) pngs.push(await render(`${model.id}/?az=${az}`));
     path = join(SIDES_OUT, `${model.id}.png`);
     writeFileSync(path, Buffer.from(await encode(pngs, 'image/png'), 'base64'));
   } else {
-    const png = await render(`m=${model.id}&thumb&zoom=${model.thumbZoom ?? 1}`);
+    const png = await render(`${model.id}/?thumb&zoom=${model.thumbZoom ?? 1}`);
     path = new URL(`${model.id}.webp`, OUT).pathname;
     writeFileSync(path, Buffer.from(await encode([png], 'image/webp', 0.85), 'base64'));
   }
