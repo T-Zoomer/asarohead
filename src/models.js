@@ -57,16 +57,14 @@ export const MODELS = [
       '(1430, oak), Bode Museum, Berlin. Scan: Three D Scans',
   },
   {
-    id: 'neptune',
-    title: 'Neptune',
-    artist: 'Restored by Iustinian Funie',
-    kind: 'Standing figure',
-    blurb: 'A standing god with trident and drapery, digitally restored.',
-    file: 'neptune.glb',
-    thumbZoom: 1.4,
+    id: 'salmacis',
+    title: 'La Nymphe Salmacis',
+    artist: 'François Joseph Bosio',
+    kind: 'Seated figure',
+    blurb: 'A crouching nymph, for the figure folded over itself.',
+    file: 'salmacis.glb',
     credit:
-      '<a href="https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/" target="_blank" rel="noopener">Neptune</a> ' +
-      '(restored by Iustinian Funie), Musée de la Romanité, Nîmes. Scan: Three D Scans',
+      '<a href="https://threedscans.com/nouveau-musee-national-de-monaco/la-nymphe-salmacis/" target="_blank" rel="noopener">La Nymphe Salmacis</a> by François Joseph Bosio (1819–1837, marble), Nouveau Musée National de Monaco. Scan: Three D Scans',
   },
   {
     id: 'three-graces',
@@ -293,24 +291,16 @@ export const MODELS = [
       '<a href="https://threedscans.com/lincoln/napoleon/" target="_blank" rel="noopener">Napoleon</a> by Antoine Denis Chaudet (marble), The Usher Gallery, Lincoln. Scan: Three D Scans',
   },
   {
-    id: 'salmacis',
-    title: 'La Nymphe Salmacis',
-    artist: 'François Joseph Bosio',
-    kind: 'Seated figure',
-    blurb: 'A crouching nymph, for the figure folded over itself.',
-    file: 'salmacis.glb',
+    id: 'neptune',
+    title: 'Neptune',
+    artist: 'Restored by Iustinian Funie',
+    kind: 'Standing figure',
+    blurb: 'A standing god with trident and drapery, digitally restored.',
+    file: 'neptune.glb',
+    thumbZoom: 1.4,
     credit:
-      '<a href="https://threedscans.com/nouveau-musee-national-de-monaco/la-nymphe-salmacis/" target="_blank" rel="noopener">La Nymphe Salmacis</a> by François Joseph Bosio (1819–1837, marble), Nouveau Musée National de Monaco. Scan: Three D Scans',
-  },
-  {
-    id: 'photosculpture',
-    title: 'Delaunay Photosculpture',
-    artist: 'François Willème, 1864',
-    kind: 'Portrait bust',
-    blurb: 'A 19th-century portrait bust in a buttoned coat.',
-    file: 'photosculpture.glb',
-    credit:
-      '<a href="https://threedscans.com/musee-carnavalet/delaunay-photosculpture/" target="_blank" rel="noopener">Delaunay Photosculpture</a> by François Willème (1864, bronze), Musée Carnavalet, Paris. Scan: Three D Scans',
+      '<a href="https://threedscans.com/uncategorized/neptune-restored-by-iustinian-funie/" target="_blank" rel="noopener">Neptune</a> ' +
+      '(restored by Iustinian Funie), Musée de la Romanité, Nîmes. Scan: Three D Scans',
   },
   {
     id: 'shepherd-boy',
@@ -554,6 +544,96 @@ export const MODELS = [
     credit:
       '<a href="https://threedscans.com/lincoln/nymph/" target="_blank" rel="noopener">Nymph Preparing for the Bath</a> ' +
       'by John Gibson, The Usher Gallery, Lincoln. Scan: Three D Scans',
+  },
+  {
+    id: 'pseudo-seneca',
+    title: 'Pseudo-Seneca',
+    artist: 'Roman, after a Hellenistic original',
+    kind: 'Bust',
+    file: 'pseudo-seneca.glb',
+    credit:
+      '<a href="https://open.smk.dk/en/artwork/image/KAS94" target="_blank" rel="noopener">Pseudo-Seneca</a> (plaster cast, KAS 94), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'leeds-brotherton',
+    title: 'Lord Brotherton',
+    artist: 'Ivan Meštrović',
+    kind: 'Bust',
+    file: 'leeds-brotherton.glb',
+    credit:
+      '<a href="https://prototype1.library.leeds.ac.uk/cr7qr8xv" target="_blank" rel="noopener">Bust of Lord Brotherton</a> by Ivan Meštrović (bronze), University of Leeds Art Collection. Scan: Scan the World',
+  },
+  {
+    id: 'farnese-hercules',
+    title: 'Farnese Hercules',
+    artist: 'After Lysippos',
+    kind: 'Standing figure',
+    file: 'farnese-hercules.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-farnese-hercules-70132" target="_blank" rel="noopener">Farnese Hercules</a> (small plaster cast), Anatomical Museum, University of Edinburgh. Scan: Anatomical Museum',
+  },
+  {
+    id: 'eurydice',
+    title: 'Eurydice Dying',
+    artist: 'Charles-François Lebœuf',
+    kind: 'Standing figure',
+    file: 'eurydice.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-eurydice-dying-at-the-louvre-paris-6535" target="_blank" rel="noopener">Eurydice Dying</a> by Charles-François Lebœuf (1822, marble), Louvre, Paris. Scan: Scan the World',
+  },
+  {
+    id: 'hermaphroditus',
+    title: 'Sleeping Hermaphroditus',
+    artist: 'Roman, mattress by Gian Lorenzo Bernini',
+    kind: 'Reclining figure',
+    file: 'hermaphroditus.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-hermaphrodite-sleeping-at-the-louvre-paris-france-7286" target="_blank" rel="noopener">Sleeping Hermaphroditus</a>, Louvre, Paris. Scan: Scan the World',
+  },
+  {
+    id: 'slave-girl',
+    title: 'The Slave Girl',
+    artist: 'Jens Adolf Jerichau',
+    kind: 'Standing figure',
+    file: 'slave-girl.glb',
+    credit:
+      '<a href="https://open.smk.dk/en/artwork/image/KMS5025" target="_blank" rel="noopener">The Slave Girl</a> by Jens Adolf Jerichau (1852, marble, KMS 5025), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'venus-apple',
+    title: 'Venus with the Apple',
+    artist: 'Bertel Thorvaldsen',
+    kind: 'Standing figure',
+    file: 'venus-apple.glb',
+    credit:
+      '<a href="https://open.smk.dk/en/artwork/image/KMS6004" target="_blank" rel="noopener">Venus with the Apple</a> by Bertel Thorvaldsen (KMS 6004), SMK, Copenhagen. Scan: SMK. <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener">Public Domain Mark</a>',
+  },
+  {
+    id: 'the-mist',
+    title: 'The Mist',
+    artist: 'Gusten Lindberg',
+    kind: 'Standing figure',
+    file: 'the-mist.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-the-mist-98661" target="_blank" rel="noopener">The Mist</a> by Gusten Lindberg (1904, marble, NMSk 955), Nationalmuseum, Stockholm. Scan: Nationalmuseum',
+  },
+  {
+    id: 'venus-victrix',
+    title: 'Venus Victrix',
+    artist: 'Antonio Canova',
+    kind: 'Reclining figure',
+    file: 'venus-victrix.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-56796" target="_blank" rel="noopener">Pauline Bonaparte as Venus Victrix</a> by Antonio Canova (1805–1808). Scan: Scan the World',
+  },
+  {
+    id: 'perseus-medusa',
+    title: 'Perseus Slaying Medusa',
+    artist: 'Laurent Marqueste',
+    kind: 'Figure group',
+    file: 'perseus-medusa.glb',
+    credit:
+      '<a href="https://www.myminifactory.com/object/3d-print-perseus-slaying-medusa-268334" target="_blank" rel="noopener">Perseus Slaying Medusa</a> by Laurent Marqueste (marble, MIN 588), Ny Carlsberg Glyptotek, Copenhagen. Scan: Ny Carlsberg Glyptotek',
   },
 ];
 

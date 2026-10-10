@@ -182,13 +182,6 @@ const SCANS = {
     rotate: ([x, y, z]) => [x, y, z],
     height: 2,
   },
-  'photosculpture': {
-    // https://threedscans.com/musee-carnavalet/delaunay-photosculpture/
-    src: 'Photosculpture.stl',
-    // Z-up, front toward -y.
-    rotate: ([x, y, z]) => [x, z, -y],
-    height: 2,
-  },
   'shepherd-boy': {
     // https://threedscans.com/walker-art-gallery/sleeping-shepherd-boy/
     src: 'shepherd-boy.stl',
@@ -261,9 +254,9 @@ const SCANS = {
   'genius-hand': {
     // https://www.myminifactory.com/object/3d-print-hand-of-the-genius-of-liberty-la-marseillaise-143732
     src: '7621-cap-hand-2.stl',
-    // The fingers point along +x and the back of the hand faces -y. Hang the
-    // fingers down (+x to -y) with the back of the hand toward +z.
-    rotate: ([x, y, z]) => [z, -x, -y],
+    // The fingers point along +x and the back of the hand faces -y. Stand the
+    // fingers up (+x to +y) with the palm toward +z.
+    rotate: ([x, y, z]) => [z, x, y],
     height: 2,
   },
   'alexander-helios': {
@@ -390,6 +383,74 @@ const SCANS = {
     src: 'smk-kms5471-girl-with-cats.stl',
     // Z-up, front toward -y.
     rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'pseudo-seneca': {
+    // SMK KAS 94
+    src: '152-smk-inv-94.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'leeds-brotherton': {
+    src: '719234 - Leeds - Brotherton 2.stl',
+    // Y-up, front toward +z.
+    rotate: ([x, y, z]) => [x, y, z],
+    height: 2,
+  },
+  'farnese-hercules': {
+    // https://www.myminifactory.com/object/3d-print-farnese-hercules-70132
+    src: 'anatomical-museum-farnese-hercules.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'eurydice': {
+    // https://www.myminifactory.com/object/3d-print-eurydice-dying-at-the-louvre-paris-6535
+    src: 'louvre-eurydice-dying-1.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'hermaphroditus': {
+    // https://www.myminifactory.com/object/3d-print-hermaphrodite-sleeping-at-the-louvre-paris-france-7286
+    src: 'louvre-hermaphrodite-sleeping-1.stl',
+    // Z-up, lying along x, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 0.8,
+  },
+  'slave-girl': {
+    // https://open.smk.dk/en/artwork/image/KMS5025
+    src: 'smk-19-slave-girl-kms5025.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'venus-apple': {
+    // https://open.smk.dk/en/artwork/image/KMS6004
+    src: 'smk16-venus-med-apple.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'the-mist': {
+    // https://www.myminifactory.com/object/3d-print-the-mist-98661
+    src: 'snm-sk0955-the-mist.stl',
+    // Z-up, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 2,
+  },
+  'venus-victrix': {
+    src: 'venus-vixtrix.stl',
+    // Z-up, lying along x, front toward -y.
+    rotate: ([x, y, z]) => [x, z, -y],
+    height: 1.2,
+  },
+  'perseus-medusa': {
+    // https://www.myminifactory.com/object/3d-print-perseus-slaying-medusa-268334
+    src: 'glyptotek-min-588.stl',
+    // Y-up, front toward +z.
+    rotate: ([x, y, z]) => [x, y, z],
     height: 2,
   },
 };
