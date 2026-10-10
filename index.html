@@ -3,19 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Cast Room – Free 3D Sculptures for Drawing Reference</title>
+    <title>__SITE_NAME__ – Free 3D Sculptures for Drawing Reference</title>
     <meta
       name="description"
       content="Turn and light 3D sculptures in your browser: an Asaro planes-of-the-head model and scanned marble busts and figures. Free drawing reference for light, shadow and form."
     />
     <link rel="canonical" href="__SITE_URL__/" />
-    <meta name="theme-color" content="#111113" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Cast Room" />
-    <meta property="og:title" content="Cast Room – free 3D sculptures for drawing reference" />
+    <meta property="og:site_name" content="__SITE_NAME__" />
+    <meta property="og:title" content="__SITE_NAME__ – free 3D sculptures for drawing reference" />
     <meta property="og:description" content="Pick a sculpture, turn it, move the light, and draw." />
     <meta property="og:url" content="__SITE_URL__/" />
     <meta property="og:image" content="__SITE_URL__/og.jpg" />
@@ -28,7 +25,7 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Cast Room",
+        "name": "__SITE_NAME__",
         "url": "__SITE_URL__/",
         "description": "Free 3D sculptures you can turn and light in the browser, for drawing and painting reference.",
         "applicationCategory": "DesignApplication",
@@ -41,15 +38,12 @@
       // Old links went to the viewer with #<model> on this page.
       if (/^#[a-z]+$/.test(location.hash)) location.replace('view/?m=' + location.hash.slice(1));
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/gallery.css" />
   </head>
   <body>
     <header class="site">
       <div>
-        <h1>Cast Room</h1>
+        <h1>__SITE_NAME__</h1>
         <p class="tagline">Free 3D sculptures for art reference</p>
       </div>
       <nav aria-label="Site"><a href="about/">About</a></nav>

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
-import { MODELS } from './src/models.js';
+import { MODELS, SITE_NAME } from './src/models.js';
 
 // The public address of the site. Canonical links, share previews,
 // robots.txt and sitemap.xml are all built from it. Override with
@@ -45,15 +45,32 @@ function licenseText() {
   return `${header}\n${MODELS.map((m) => `${m.id}.glb: ${text(m.credit)}`).join('\n\n')}\n`;
 }
 
+// Tags every page shares, added to the top of each <head>: the saved
+// background (inlined, so it applies before the first paint), icons and
+// fonts.
+const HEAD = `
+    <script>${readFileSync(new URL('./src/background-boot.js', import.meta.url), 'utf8')}</script>
+    <meta name="theme-color" content="#111113" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />`;
+
 function seo() {
   return {
     name: 'seo',
-    transformIndexHtml: (html) =>
-      html
-        .replace('<head>', `<head>\n    <script>${readFileSync(new URL('./src/background-boot.js', import.meta.url), 'utf8')}</script>`)
-        .replaceAll('__SITE_URL__', SITE_URL)
-        .replace('<!--gallery-->', galleryHtml())
-        .replace('<!--credits-->', creditsHtml()),
+    // Before Vite's own HTML step, so the icon links get the base path.
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html) =>
+        html
+          .replace('<head>', `<head>${HEAD}`)
+          .replaceAll('__SITE_NAME__', SITE_NAME)
+          .replaceAll('__SITE_URL__', SITE_URL)
+          .replace('<!--gallery-->', galleryHtml())
+          .replace('<!--credits-->', creditsHtml()),
+    },
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'models/LICENSE.txt', source: licenseText() });
       this.emitFile({
