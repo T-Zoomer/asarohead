@@ -64,8 +64,8 @@ const HEAD = `
 // script picks the model from the path.
 function modelPage(html, m) {
   const url = `${SITE_URL}/view/${m.id}/`;
-  const title = `${m.title} – 3D drawing reference – ${SITE_NAME}`;
-  const description = `Turn and light a free 3D scan of ${m.title} (${m.artist}) in your browser. Drawing reference for light, shadow and form.`;
+  const title = `${m.title} – 3D model – ${SITE_NAME}`;
+  const description = `Explore ${m.title} (${m.artist}) in 3D: turn it, zoom in close and light it any way you like. Free in your browser, for art lovers, students and artists.`;
   const data = {
     '@context': 'https://schema.org',
     '@type': '3DModel',

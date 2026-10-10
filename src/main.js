@@ -143,7 +143,7 @@ const subject = { mesh: null, center: new THREE.Vector3(0, 1, 0), size: new THRE
 const light = new THREE.Vector3(); // world-space direction toward the key light
 
 if (model) {
-  document.title = `${model.title} – 3D drawing reference – ${SITE_NAME}`;
+  document.title = `${model.title} – 3D model – ${SITE_NAME}`;
   $('title').textContent = model.title;
   $('artist').textContent = model.artist;
   $('credit').innerHTML = model.credit;
