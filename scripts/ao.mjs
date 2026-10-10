@@ -162,43 +162,41 @@ function smooth(ao, index, passes) {
   return src;
 }
 
-function computeNormals(positions, index, normals) {
+// Area-weighted smooth normals, written into normals (zeroed, same length as
+// positions): the unnormalized cross product makes larger faces count for
+// more. Returns six times the mesh's signed volume; a negative value means
+// the triangles wind inside out.
+export function computeNormals(positions, index, normals) {
+  let volume = 0;
   for (let f = 0; f < index.length; f += 3) {
     const [a, b, c] = [index[f] * 3, index[f + 1] * 3, index[f + 2] * 3];
     const e1 = [positions[b] - positions[a], positions[b + 1] - positions[a + 1], positions[b + 2] - positions[a + 2]];
     const e2 = [positions[c] - positions[a], positions[c + 1] - positions[a + 1], positions[c + 2] - positions[a + 2]];
     const n = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]];
     for (const v of [a, b, c]) for (let k = 0; k < 3; k++) normals[v + k] += n[k];
+    volume += positions[a] * n[0] + positions[a + 1] * n[1] + positions[a + 2] * n[2];
   }
   for (let i = 0; i < normals.length; i += 3) {
     const len = Math.hypot(normals[i], normals[i + 1], normals[i + 2]) || 1;
     for (let k = 0; k < 3; k++) normals[i + k] /= len;
   }
+  return volume;
 }
 
 // CLI: re-bake GLBs in place.
 if (isMainThread && process.argv[1] === new URL(import.meta.url).pathname) {
   const { readdirSync } = await import('node:fs');
-  const { NodeIO } = await import('@gltf-transform/core');
-  const { ALL_EXTENSIONS } = await import('@gltf-transform/extensions');
-  const { dequantize, meshopt } = await import('@gltf-transform/functions');
-  const { MeshoptEncoder, MeshoptDecoder } = await import('meshoptimizer');
-  await MeshoptEncoder.ready;
-  await MeshoptDecoder.ready;
+  const { dequantize } = await import('@gltf-transform/functions');
+  const { io, writeModel } = await import('./glb.mjs');
   const dir = new URL('../public/models/', import.meta.url);
-  const io = new NodeIO()
-    .registerExtensions(ALL_EXTENSIONS)
-    .registerDependencies({ 'meshopt.encoder': MeshoptEncoder, 'meshopt.decoder': MeshoptDecoder });
   const names = process.argv.slice(2);
   const files = readdirSync(dir).filter((f) => f.endsWith('.glb') && (!names.length || names.includes(f.slice(0, -4))));
   for (const file of files) {
     const started = Date.now();
-    const path = new URL(file, dir).pathname;
-    const doc = await io.read(path);
+    const path = new URL(file, dir);
+    const doc = await io.read(path.pathname);
     await doc.transform(dequantize());
-    await bakeAO(doc);
-    await doc.transform(meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
-    await io.write(path, doc);
+    await writeModel(doc, path);
     console.log(`${file}: baked in ${((Date.now() - started) / 1000).toFixed(1)} s`);
   }
 }

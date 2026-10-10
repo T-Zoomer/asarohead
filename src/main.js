@@ -26,8 +26,9 @@ function dirFromAngles(az, el, out = new THREE.Vector3()) {
 // Renderer, scene, camera
 
 const canvas = $('view');
+const params = new URLSearchParams(location.search);
 // ?thumb renders on a transparent background, for the gallery thumbnails.
-const THUMB = new URLSearchParams(location.search).has('thumb');
+const THUMB = params.has('thumb');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: THUMB });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
@@ -53,7 +54,7 @@ controls.target.set(0, 1, 0);
 // a little above, a wide piece looks taller than it is, so its height counts
 // as at least 0.75 of its width; upright models are taller than that anyway.
 // ?zoom=1.5 starts closer; the thumbnail script uses it to fill the frame.
-const ZOOM = Number(new URLSearchParams(location.search).get('zoom')) || 1;
+const ZOOM = Number(params.get('zoom')) || 1;
 function frameDistance() {
   const width = Math.max(head.size.x, head.size.z);
   const viewHeight = Math.max(Math.max(head.size.y, 0.75 * width) / 0.6, width / (0.85 * camera.aspect));
@@ -124,7 +125,7 @@ marble.onBeforeCompile = (shader) => {
 // angle splits normals where neighbouring faces turn sharply, which keeps the
 // Asaro planes flat with hard edges. Scans ship smooth normals in the GLB.
 
-const model = modelById(new URLSearchParams(location.search).get('m'));
+const model = modelById(params.get('m'));
 if (!model) location.replace('../');
 
 // The Asaro head is the reference size for lights, shadows and zoom limits.
@@ -177,7 +178,9 @@ if (model) {
 
       resize();
       controls.target.copy(head.center);
+      // ?az=90 starts from that angle; the thumbnail script's --sides uses it.
       const view = { ...START_VIEW, ...model.view };
+      if (params.has('az')) view.az = Number(params.get('az'));
       camera.position.copy(head.center).addScaledVector(dirFromAngles(view.az, view.el), frameDistance());
       controls.update();
       dirFromAngles(view.az + START_LIGHT.az, START_LIGHT.el, light);

@@ -8,25 +8,21 @@
 // reassembles them: the back half is flipped onto the front half, and the
 // ears are rotated into the sockets on either side of the head.
 
-import { readFileSync, mkdirSync } from 'node:fs';
-import { Document, NodeIO } from '@gltf-transform/core';
-import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { weld, simplify, dedup, prune, meshopt } from '@gltf-transform/functions';
-import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
-import { bakeAO } from './ao.mjs';
+import { weld, simplify, dedup, prune } from '@gltf-transform/functions';
+import { MeshoptSimplifier, createModel, readMesh, writeModel } from './glb.mjs';
 
 const SRC = new URL('../model-src/', import.meta.url);
 const OUT = new URL('../public/models/asaro.glb', import.meta.url);
 const MM_TO_UNITS = 0.01; // 180 mm head -> 1.8 units
 
+// The parts as a list of triangles, nine coordinates each, so they can be
+// filtered and moved one triangle at a time.
 function readStl(name) {
-  const buf = readFileSync(new URL(name, SRC));
-  const count = buf.readUInt32LE(80);
+  const { positions, faces } = readMesh(new URL(name, SRC));
   const tris = [];
-  for (let i = 0; i < count; i++) {
-    const o = 84 + i * 50 + 12;
+  for (let f = 0; f < faces.length; f += 3) {
     const t = [];
-    for (let k = 0; k < 9; k++) t.push(buf.readFloatLE(o + k * 4));
+    for (let k = 0; k < 3; k++) t.push(...positions.subarray(faces[f + k] * 3, faces[f + k] * 3 + 3));
     tris.push(t);
   }
   return tris;
@@ -177,16 +173,8 @@ function stitchTJunctions(flat, eps = 2e-4) {
 
 const stitched = stitchTJunctions(positions);
 
-const doc = new Document();
-const buffer = doc.createBuffer();
-const position = doc.createAccessor().setType('VEC3').setArray(stitched).setBuffer(buffer);
-const material = doc.createMaterial('plaster').setBaseColorFactor([0.9, 0.9, 0.88, 1]).setRoughnessFactor(0.9);
-const prim = doc.createPrimitive().setAttribute('POSITION', position).setMaterial(material);
-const mesh = doc.createMesh('AsaroHead').addPrimitive(prim);
-doc.createScene().addChild(doc.createNode('AsaroHead').setMesh(mesh));
+const { doc, prim } = createModel('AsaroHead', { positions: stitched });
 
-await MeshoptSimplifier.ready;
-await MeshoptEncoder.ready;
 await doc.transform(
   weld(),
   // The planes are flat but densely tessellated; a tight error bound keeps
@@ -195,11 +183,6 @@ await doc.transform(
   dedup(),
   prune(),
 );
-await bakeAO(doc);
-await doc.transform(meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
-
 const triCount = prim.getIndices().getCount() / 3;
-mkdirSync(new URL('../public/models/', import.meta.url), { recursive: true });
-const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
-await io.write(OUT.pathname, doc);
+await writeModel(doc, OUT);
 console.log(`input ${all.length} tris -> output ${triCount} tris -> ${OUT.pathname}`);

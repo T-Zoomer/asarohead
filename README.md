@@ -29,7 +29,8 @@ default in `vite.config.js`.
 
 1. Put the source file in `3d_model files/` (it stays out of git), add it to
    `SCANS` in `scripts/convert-scan.mjs` with a rotation that stands it
-   upright facing +z, and run `npm run convert:scan -- <id>`.
+   upright facing +z, and run `npm run convert:scan -- <id>`. To check the
+   rotation, `npm run thumbs -- --sides <id>` renders it from all four sides.
 2. Add an entry to `src/models.js`: id, title, artist and credit. The
    gallery and viewer are both built from that list.
 3. Run `npm run thumbs -- <id>` to render its gallery thumbnail into

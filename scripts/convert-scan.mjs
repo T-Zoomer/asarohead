@@ -13,12 +13,8 @@
 // the viewer shades every model like the original scan. Ambient occlusion is
 // baked in last (scripts/ao.mjs).
 
-import { readFileSync, mkdirSync } from 'node:fs';
-import { Document, NodeIO } from '@gltf-transform/core';
-import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { dedup, prune, meshopt, simplify, weld } from '@gltf-transform/functions';
-import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
-import { bakeAO } from './ao.mjs';
+import { dedup, prune, simplify, weld } from '@gltf-transform/functions';
+import { MeshoptSimplifier, computeNormals, createModel, readMesh, writeModel } from './glb.mjs';
 
 // Above this, files pass 10 MB and load slowly; with full-resolution normals
 // the simplified mesh looks the same.
@@ -458,70 +454,8 @@ const SCANS = {
 const SRC_DIR = new URL('../3d_model files/', import.meta.url);
 const OUT_DIR = new URL('../public/models/', import.meta.url);
 
-// Both readers return { positions: Float64Array (x, y, z per vertex),
-// faces: Uint32Array (three vertex indices per triangle) }. Positions stay
-// 64-bit until the end, so rotating and scaling round only once.
-function readObj(path) {
-  const verts = [];
-  const faces = [];
-  for (const line of readFileSync(path, 'utf8').split('\n')) {
-    if (line.startsWith('v ')) {
-      const [, x, y, z] = line.split(/\s+/).map(Number);
-      verts.push(x, y, z);
-    } else if (line.startsWith('f ')) {
-      const idx = line.trim().split(/\s+/).slice(1).map((p) => parseInt(p, 10) - 1);
-      for (let i = 1; i < idx.length - 1; i++) faces.push(idx[0], idx[i], idx[i + 1]);
-    }
-  }
-  return { positions: new Float64Array(verts), faces: new Uint32Array(faces) };
-}
-
-// Binary STL stores three separate corners per triangle. Merge corners at the
-// same position so the mesh is connected and its normals come out smooth.
-// An open-addressing hash table on typed arrays keeps this lean enough for
-// 10M-triangle scans.
-function readStl(path) {
-  const buf = readFileSync(path);
-  const count = buf.readUInt32LE(80);
-  const corners = count * 3;
-  let size = 1;
-  while (size < corners * 2) size *= 2;
-  const table = new Int32Array(size).fill(-1);
-  const positions = new Float64Array(corners * 3);
-  const faces = new Uint32Array(corners);
-  const v = new Float32Array(3);
-  const bits = new Uint32Array(v.buffer);
-  let n = 0;
-  for (let i = 0; i < count; i++) {
-    for (let k = 0; k < 3; k++) {
-      const o = 84 + i * 50 + 12 + k * 12;
-      v[0] = buf.readFloatLE(o);
-      v[1] = buf.readFloatLE(o + 4);
-      v[2] = buf.readFloatLE(o + 8);
-      let h = Math.imul(bits[0], 0x9e3779b1) ^ Math.imul(bits[1], 0x85ebca77) ^ Math.imul(bits[2], 0xc2b2ae3d);
-      h = (h ^ (h >>> 15)) & (size - 1);
-      for (;;) {
-        const j = table[h];
-        if (j === -1) {
-          table[h] = n;
-          positions.set(v, n * 3);
-          faces[i * 3 + k] = n++;
-          break;
-        }
-        if (positions[j * 3] === v[0] && positions[j * 3 + 1] === v[1] && positions[j * 3 + 2] === v[2]) {
-          faces[i * 3 + k] = j;
-          break;
-        }
-        h = (h + 1) & (size - 1);
-      }
-    }
-  }
-  return { positions: positions.slice(0, n * 3), faces };
-}
-
 async function convert(name, scan) {
-  const path = new URL(scan.src, SRC_DIR);
-  const { positions: source, faces } = scan.src.toLowerCase().endsWith('.stl') ? readStl(path) : readObj(path);
+  const { positions: source, faces } = readMesh(new URL(scan.src, SRC_DIR));
   const positions = new Float32Array(source.length);
 
   // Rotate upright, then center on x and z, stand the base on y = 0, and
@@ -542,50 +476,21 @@ async function convert(name, scan) {
     for (let k = 0; k < 3; k++) positions[i + k] = (source[i + k] + offset[k]) * scale;
   }
 
-  // Area-weighted smooth normals: the unnormalized cross product makes
-  // larger faces count for more.
   const normals = new Float32Array(positions.length);
-  let volume = 0;
-  for (let f = 0; f < faces.length; f += 3) {
-    const [a, b, c] = [faces[f] * 3, faces[f + 1] * 3, faces[f + 2] * 3];
-    const e1 = [positions[b] - positions[a], positions[b + 1] - positions[a + 1], positions[b + 2] - positions[a + 2]];
-    const e2 = [positions[c] - positions[a], positions[c + 1] - positions[a + 1], positions[c + 2] - positions[a + 2]];
-    const n = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]];
-    for (const v of [a, b, c]) for (let k = 0; k < 3; k++) normals[v + k] += n[k];
-    volume += positions[a] * n[0] + positions[a + 1] * n[1] + positions[a + 2] * n[2];
-  }
-  for (let i = 0; i < normals.length; i += 3) {
-    const len = Math.hypot(normals[i], normals[i + 1], normals[i + 2]) || 1;
-    for (let k = 0; k < 3; k++) normals[i + k] /= len;
-  }
+  const volume = computeNormals(positions, faces, normals);
   // A negative signed volume means the triangles wind inside out.
   if (volume < 0) console.warn(`${name}: triangles wind inward, the model will render inside out`);
 
-  const doc = new Document();
-  const buffer = doc.createBuffer();
-  const prim = doc
-    .createPrimitive()
-    .setAttribute('POSITION', doc.createAccessor().setType('VEC3').setArray(positions).setBuffer(buffer))
-    .setAttribute('NORMAL', doc.createAccessor().setType('VEC3').setArray(normals).setBuffer(buffer))
-    .setIndices(doc.createAccessor().setType('SCALAR').setArray(faces).setBuffer(buffer))
-    .setMaterial(doc.createMaterial('marble').setBaseColorFactor([0.9, 0.9, 0.88, 1]).setRoughnessFactor(0.9));
-  doc.createScene().addChild(doc.createNode(name).setMesh(doc.createMesh(name).addPrimitive(prim)));
+  const { doc, prim } = createModel(name, { positions, normals, indices: faces });
 
   const tris = faces.length / 3;
   const reduce = tris > MAX_TRIS ? [weld(), simplify({ simplifier: MeshoptSimplifier, ratio: MAX_TRIS / tris, error: 0.01 })] : [];
   await doc.transform(...reduce, dedup(), prune());
-  await bakeAO(doc);
-  await doc.transform(meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
-
   const out = new URL(`${name}.glb`, OUT_DIR);
-  const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
-  await io.write(out.pathname, doc);
+  await writeModel(doc, out);
   console.log(`${name}: ${tris} -> ${prim.getIndices().getCount() / 3} tris -> ${out.pathname}`);
 }
 
-await MeshoptEncoder.ready;
-await MeshoptSimplifier.ready;
-mkdirSync(OUT_DIR, { recursive: true });
 const names = process.argv.slice(2);
 for (const name of names.length ? names : Object.keys(SCANS)) {
   if (!SCANS[name]) throw new Error(`Unknown scan "${name}". Known: ${Object.keys(SCANS).join(', ')}`);
