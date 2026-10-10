@@ -113,3 +113,22 @@ li + li {
     padding-top: 24px;
   }
 }
+
+/* The 404 page (404.html). */
+.not-found {
+  max-width: 44ch;
+  margin: 0 auto;
+  padding: 24px 20px 96px;
+  text-align: center;
+}
+
+.not-found img {
+  display: block;
+  width: min(320px, 80vw);
+  height: auto;
+  margin: 0 auto 8px;
+}
+
+.not-found .back {
+  margin-top: 32px;
+}

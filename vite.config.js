@@ -164,6 +164,7 @@ export default defineConfig({
         main: 'index.html',
         view: 'view/index.html',
         about: 'about/index.html',
+        notFound: '404.html',
       },
     },
   },
