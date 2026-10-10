@@ -25,9 +25,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-        env:
-          BASE_PATH: /asarohead/
-          SITE_URL: https://t-zoomer.github.io/asarohead
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

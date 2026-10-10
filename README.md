@@ -21,7 +21,7 @@ npm run build     # static site in dist/
 GitHub Pages or Cloudflare Pages. Pushing to `main` deploys to GitHub Pages.
 
 Canonical links, share previews, `robots.txt` and `sitemap.xml` use the
-site's public address. It defaults to `https://asarohead.com`; build with
+site's public address. It defaults to `https://lightandform.art`; build with
 `SITE_URL=https://your-domain npm run build` to change it, or edit the
 default in `vite.config.js`.
 

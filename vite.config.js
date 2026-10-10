@@ -5,7 +5,7 @@ import { MODELS, SITE_NAME } from './src/models.js';
 // The public address of the site. Canonical links, share previews,
 // robots.txt and sitemap.xml are all built from it. Override with
 // SITE_URL=https://example.com npm run build
-const SITE_URL = (process.env.SITE_URL ?? 'https://asarohead.com').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL ?? 'https://lightandform.art').replace(/\/$/, '');
 
 const PAGES = ['/', '/about/', ...MODELS.map((m) => `/view/${m.id}/`)];
 
@@ -149,8 +149,8 @@ function site() {
   };
 }
 
-// The path the site is served under. GitHub Pages project sites live at
-// /<repo>/, so the deploy workflow sets BASE_PATH=/asarohead/.
+// The path the site is served under: the domain root. To serve it from a
+// subfolder, such as a GitHub Pages project URL, set BASE_PATH=/<repo>/.
 const BASE_PATH = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
