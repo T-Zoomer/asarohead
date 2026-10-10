@@ -57,9 +57,9 @@ const HEAD = `
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />`;
 
-function seo() {
+function site() {
   return {
-    name: 'seo',
+    name: 'site',
     // Before Vite's own HTML step, so the icon links get the base path.
     transformIndexHtml: {
       order: 'pre',
@@ -94,7 +94,7 @@ const BASE_PATH = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base: BASE_PATH,
-  plugins: [seo()],
+  plugins: [site()],
   build: {
     // three.js is most of the bundle and loads as one chunk by design.
     chunkSizeWarningLimit: 800,

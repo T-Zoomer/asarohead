@@ -56,8 +56,8 @@ controls.target.set(0, 1, 0);
 // ?zoom=1.5 starts closer; the thumbnail script uses it to fill the frame.
 const ZOOM = Number(params.get('zoom')) || 1;
 function frameDistance() {
-  const width = Math.max(head.size.x, head.size.z);
-  const viewHeight = Math.max(Math.max(head.size.y, 0.75 * width) / 0.6, width / (0.85 * camera.aspect));
+  const width = Math.max(subject.size.x, subject.size.z);
+  const viewHeight = Math.max(Math.max(subject.size.y, 0.75 * width) / 0.6, width / (0.85 * camera.aspect));
   return viewHeight / (2 * Math.tan((camera.fov / 2) * DEG)) / ZOOM;
 }
 
@@ -131,7 +131,8 @@ if (!model) location.replace('../');
 // The Asaro head is the reference size for lights, shadows and zoom limits.
 const REFERENCE_SIZE = 1.78;
 
-const head = { mesh: null, center: new THREE.Vector3(0, 1, 0), size: new THREE.Vector3(1, 1.78, 1), scale: 1 };
+// The loaded sculpture: its mesh, bounding box and size relative to the Asaro head.
+const subject = { mesh: null, center: new THREE.Vector3(0, 1, 0), size: new THREE.Vector3(1, 1.78, 1), scale: 1 };
 const light = new THREE.Vector3(); // world-space direction toward the key light
 
 if (model) {
@@ -154,34 +155,34 @@ if (model) {
       else if (!geometry.attributes.normal) geometry.computeVertexNormals();
       // A model without baked occlusion counts as fully open.
       if (!geometry.attributes._ao) geometry.setAttribute('_ao', new THREE.BufferAttribute(new Uint8Array(geometry.attributes.position.count).fill(255), 1, true));
-      head.mesh = new THREE.Mesh(geometry, marble);
+      subject.mesh = new THREE.Mesh(geometry, marble);
       // Quantized glTF positions carry their real scale and offset on the node.
       gltf.scene.updateMatrixWorld(true);
-      head.mesh.applyMatrix4(source.matrixWorld);
-      head.mesh.castShadow = head.mesh.receiveShadow = true;
-      scene.add(head.mesh);
+      subject.mesh.applyMatrix4(source.matrixWorld);
+      subject.mesh.castShadow = subject.mesh.receiveShadow = true;
+      scene.add(subject.mesh);
 
-      const box = new THREE.Box3().setFromObject(head.mesh);
-      const size = box.getSize(head.size);
-      box.getCenter(head.center);
-      head.scale = Math.max(size.x, size.y, size.z) / REFERENCE_SIZE;
-      key.target.position.copy(head.center);
-      fill.target.position.copy(head.center);
+      const box = new THREE.Box3().setFromObject(subject.mesh);
+      const size = box.getSize(subject.size);
+      box.getCenter(subject.center);
+      subject.scale = Math.max(size.x, size.y, size.z) / REFERENCE_SIZE;
+      key.target.position.copy(subject.center);
+      fill.target.position.copy(subject.center);
       const r = 0.8 * Math.max(size.x, size.y, size.z);
-      Object.assign(key.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 12 * head.scale });
+      Object.assign(key.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 12 * subject.scale });
       key.shadow.camera.updateProjectionMatrix();
       // Close enough for a foot or an eye to fill the view once recentered.
-      controls.minDistance = 0.15 * head.scale;
-      camera.near = 0.01 * head.scale;
+      controls.minDistance = 0.15 * subject.scale;
+      camera.near = 0.01 * subject.scale;
       camera.updateProjectionMatrix();
-      controls.maxDistance = 60 * head.scale;
+      controls.maxDistance = 60 * subject.scale;
 
       resize();
-      controls.target.copy(head.center);
+      controls.target.copy(subject.center);
       // ?az=90 starts from that angle; the thumbnail script's --sides uses it.
       const view = { ...START_VIEW, ...model.view };
       if (params.has('az')) view.az = Number(params.get('az'));
-      camera.position.copy(head.center).addScaledVector(dirFromAngles(view.az, view.el), frameDistance());
+      camera.position.copy(subject.center).addScaledVector(dirFromAngles(view.az, view.el), frameDistance());
       controls.update();
       dirFromAngles(view.az + START_LIGHT.az, START_LIGHT.el, light);
       $('status').textContent = '';
@@ -197,7 +198,7 @@ if (model) {
 // ---------------------------------------------------------------------------
 // Light
 //
-// The light stays fixed to the head, like a studio lamp. The ball shows it
+// The light stays fixed to the model, like a studio lamp. The ball shows it
 // as seen from the camera, and dragging it sets it from the camera's view.
 
 const lightBall = createLightBall($('light-ball'), {
@@ -249,11 +250,11 @@ function stepFlight() {
 }
 
 function pickCenter(event) {
-  if (!head.mesh) return false;
+  if (!subject.mesh) return false;
   const rect = canvas.getBoundingClientRect();
   pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
   raycaster.setFromCamera(pointer, camera);
-  const hit = raycaster.intersectObject(head.mesh, false)[0];
+  const hit = raycaster.intersectObject(subject.mesh, false)[0];
   if (hit) flyTo(hit.point);
   return Boolean(hit);
 }
@@ -269,7 +270,7 @@ window.addEventListener('keydown', (e) => e.key === 'Escape' && armRecenter(fals
 $('reset-view').addEventListener('click', () => {
   armRecenter(false);
   const dir = camera.position.clone().sub(controls.target).normalize();
-  flyTo(head.center.clone(), head.center.clone().addScaledVector(dir, frameDistance()));
+  flyTo(subject.center.clone(), subject.center.clone().addScaledVector(dir, frameDistance()));
 });
 
 // A click is a press and release without dragging. Tell clicks from orbit
@@ -315,7 +316,7 @@ function showSaved() {
 showSaved();
 
 saveButton.addEventListener('click', () => {
-  if (!head.mesh) return;
+  if (!subject.mesh) return;
   savedView = { camera: camera.position.toArray(), target: controls.target.toArray(), light: light.toArray() };
   try {
     localStorage.setItem(savedKey, JSON.stringify(savedView));
@@ -326,7 +327,7 @@ saveButton.addEventListener('click', () => {
 });
 
 loadButton.addEventListener('click', () => {
-  if (!savedView || !head.mesh) return;
+  if (!savedView || !subject.mesh) return;
   armRecenter(false);
   flyTo(new THREE.Vector3().fromArray(savedView.target), new THREE.Vector3().fromArray(savedView.camera));
   light.fromArray(savedView.light);
@@ -337,9 +338,9 @@ const inverseCam = new THREE.Quaternion();
 function updateLights() {
   inverseCam.copy(camera.quaternion).invert();
   lightBall.set(light.clone().applyQuaternion(inverseCam).toArray());
-  key.position.copy(head.center).addScaledVector(light, 6 * head.scale);
+  key.position.copy(subject.center).addScaledVector(light, 6 * subject.scale);
   toCam.copy(camera.position).sub(controls.target).normalize();
-  fill.position.copy(head.center).addScaledVector(toCam, 6 * head.scale);
+  fill.position.copy(subject.center).addScaledVector(toCam, 6 * subject.scale);
 }
 
 // ---------------------------------------------------------------------------

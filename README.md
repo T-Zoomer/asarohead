@@ -27,7 +27,7 @@ default in `vite.config.js`.
 
 ## Adding a model
 
-1. Put the source file in `3d_model files/` (it stays out of git), add it to
+1. Put the source file in `scans-src/` (it stays out of git), add it to
    `SCANS` in `scripts/convert-scan.mjs` with a rotation that stands it
    upright facing +z, and run `npm run convert:scan -- <id>`. To check the
    rotation, `npm run thumbs -- --sides <id>` renders it from all four sides.
@@ -40,8 +40,8 @@ default in `vite.config.js`.
 
 **Asaro head.** "Asaro Head" by AgentSCAD
 ([Thingiverse 7287701](https://www.thingiverse.com/thing:7287701)),
-licensed **CC BY-SA**. The original print files are in `model-src/`.
-`npm run convert` reassembles them into `public/models/asaro.glb`. It
+licensed **CC BY-SA**. The original print files are in `asaro-src/`.
+`npm run convert:asaro` reassembles them into `public/models/asaro.glb`. It
 flips the back half onto the front, stitches the seam, seats the ears in
 their sockets, and simplifies the result from 239k to about 6k triangles
 (26 KB). The GLB is a derivative and stays under CC BY-SA. Keep the credit

@@ -6,7 +6,7 @@
 //   npm run convert:scan -- nymph   # just one
 //
 // The source files are large (tens of MB) and stay out of git. Download them
-// into "3d_model files/" under the names below.
+// into scans-src/ under the names below.
 //
 // Scans keep their full resolution up to MAX_TRIS; larger ones are
 // simplified to it. Smooth normals are computed from the full mesh first, so
@@ -451,7 +451,7 @@ const SCANS = {
   },
 };
 
-const SRC_DIR = new URL('../3d_model files/', import.meta.url);
+const SRC_DIR = new URL('../scans-src/', import.meta.url);
 const OUT_DIR = new URL('../public/models/', import.meta.url);
 
 async function convert(name, scan) {

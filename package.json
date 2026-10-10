@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "convert": "node scripts/convert-model.mjs",
+    "convert:asaro": "node scripts/convert-asaro.mjs",
     "convert:scan": "node scripts/convert-scan.mjs",
     "bake:ao": "node scripts/ao.mjs",
     "thumbs": "node scripts/thumbnails.mjs"

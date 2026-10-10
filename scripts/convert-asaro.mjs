@@ -1,4 +1,4 @@
-// Converts the printable Asaro head STL parts (model-src/) into a single
+// Converts the printable Asaro head STL parts (asaro-src/) into a single
 // web-ready GLB (public/models/asaro.glb).
 //
 // Source: "Asaro Head" by AgentSCAD, https://www.thingiverse.com/thing:7287701
@@ -11,7 +11,7 @@
 import { weld, simplify, dedup, prune } from '@gltf-transform/functions';
 import { MeshoptSimplifier, createModel, readMesh, writeModel } from './glb.mjs';
 
-const SRC = new URL('../model-src/', import.meta.url);
+const SRC = new URL('../asaro-src/', import.meta.url);
 const OUT = new URL('../public/models/asaro.glb', import.meta.url);
 const MM_TO_UNITS = 0.01; // 180 mm head -> 1.8 units
 
