@@ -9,7 +9,8 @@
     "convert:asaro": "node scripts/convert-asaro.mjs",
     "convert:scan": "node scripts/convert-scan.mjs",
     "bake:ao": "node scripts/ao.mjs",
-    "thumbs": "node scripts/thumbnails.mjs"
+    "thumbs": "node scripts/thumbnails.mjs",
+    "share-images": "node scripts/share-images.mjs"
   },
   "type": "module",
   "private": true,

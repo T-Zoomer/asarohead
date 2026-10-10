@@ -35,6 +35,8 @@ default in `vite.config.js`.
    gallery and viewer are both built from that list.
 3. Run `npm run thumbs -- <id>` to render its gallery thumbnail into
    `public/thumbs/` (needs `npx playwright install chromium` once).
+4. Run `npm run share-images -- <id>` to make its link-preview image in
+   `public/og/` from that thumbnail.
 
 ## The models
 
