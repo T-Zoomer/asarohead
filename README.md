@@ -30,7 +30,7 @@ default in `vite.config.js`.
 1. Put the source file in `3d_model files/` (it stays out of git), add it to
    `SCANS` in `scripts/convert-scan.mjs` with a rotation that stands it
    upright facing +z, and run `npm run convert:scan -- <id>`.
-2. Add an entry to `src/models.js`: title, artist, file and credit. The
+2. Add an entry to `src/models.js`: id, title, artist and credit. The
    gallery and viewer are both built from that list.
 3. Run `npm run thumbs -- <id>` to render its gallery thumbnail into
    `public/thumbs/` (needs `npx playwright install chromium` once).
@@ -40,7 +40,7 @@ default in `vite.config.js`.
 **Asaro head.** "Asaro Head" by AgentSCAD
 ([Thingiverse 7287701](https://www.thingiverse.com/thing:7287701)),
 licensed **CC BY-SA**. The original print files are in `model-src/`.
-`npm run convert` reassembles them into `public/models/asaro-head.glb`. It
+`npm run convert` reassembles them into `public/models/asaro.glb`. It
 flips the back half onto the front, stitches the seam, seats the ears in
 their sockets, and simplifies the result from 239k to about 6k triangles
 (26 KB). The GLB is a derivative and stays under CC BY-SA. Keep the credit
@@ -50,7 +50,7 @@ on the model's page if you deploy this.
 publishes its scans free to use without copyright restrictions, and from
 [Scan the World](https://www.myminifactory.com/scantheworld/) on MyMiniFactory
 (public domain SMK casts, and CC BY-NC-SA scans whose converted files keep
-that license; see `public/models/LICENSE.txt`). Don't add MyMiniFactory
+that license; the build lists every credit in `models/LICENSE.txt`). Don't add MyMiniFactory
 Exclusive models: their license forbids hosting them elsewhere. They keep
 their full resolution up to 1.5M triangles (larger scans are simplified to
 that), with smooth normals computed from the full mesh.

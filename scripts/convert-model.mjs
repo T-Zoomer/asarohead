@@ -1,5 +1,5 @@
 // Converts the printable Asaro head STL parts (model-src/) into a single
-// web-ready GLB (public/models/asaro-head.glb).
+// web-ready GLB (public/models/asaro.glb).
 //
 // Source: "Asaro Head" by AgentSCAD, https://www.thingiverse.com/thing:7287701
 // License: CC BY-SA. The output GLB is a derivative and stays CC BY-SA.
@@ -16,7 +16,7 @@ import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 import { bakeAO } from './ao.mjs';
 
 const SRC = new URL('../model-src/', import.meta.url);
-const OUT = new URL('../public/models/asaro-head.glb', import.meta.url);
+const OUT = new URL('../public/models/asaro.glb', import.meta.url);
 const MM_TO_UNITS = 0.01; // 180 mm head -> 1.8 units
 
 function readStl(name) {

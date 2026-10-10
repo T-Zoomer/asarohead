@@ -144,7 +144,7 @@ if (model) {
   $('credit').innerHTML = model.credit;
 
   new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(
-    `${import.meta.env.BASE_URL}models/${model.file}`,
+    `${import.meta.env.BASE_URL}models/${model.id}.glb`,
     (gltf) => {
       let source;
       gltf.scene.traverse((o) => o.isMesh && (source ??= o));

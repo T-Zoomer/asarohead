@@ -1,6 +1,6 @@
-// Converts sculpture scans from Three D Scans (https://threedscans.com) into
-// web-ready GLBs in public/models/. Three D Scans publishes its scans free to
-// use without copyright restrictions.
+// Converts sculpture scans (Three D Scans, Scan the World, SMK) into
+// web-ready GLBs in public/models/. Each model's source and license is in its
+// credit in src/models.js.
 //
 //   npm run convert:scan            # every scan below
 //   npm run convert:scan -- nymph   # just one

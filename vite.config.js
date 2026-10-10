@@ -31,6 +31,20 @@ function creditsHtml() {
     .join('\n        ');
 }
 
+// models/LICENSE.txt: the credit and license of every model, as plain text,
+// built from the same credits so it never falls behind the list.
+function licenseText() {
+  const text = (html) =>
+    html
+      .replace(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g, '$2 ($1)')
+      .replace(/<[^>]+>/g, '');
+  const header =
+    'Credits and licenses for the models in this folder. Each GLB was converted for the web\n' +
+    '(reoriented, simplified and given baked ambient occlusion) from the source named below;\n' +
+    'derivatives of CC BY-SA and CC BY-NC-SA sources keep the same license.\n';
+  return `${header}\n${MODELS.map((m) => `${m.id}.glb: ${text(m.credit)}`).join('\n\n')}\n`;
+}
+
 function seo() {
   return {
     name: 'seo',
@@ -41,6 +55,7 @@ function seo() {
         .replace('<!--gallery-->', galleryHtml())
         .replace('<!--credits-->', creditsHtml()),
     generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'models/LICENSE.txt', source: licenseText() });
       this.emitFile({
         type: 'asset',
         fileName: 'robots.txt',
