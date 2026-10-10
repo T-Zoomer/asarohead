@@ -1,40 +1,15 @@
-:root {
-  /* --bg comes from the saved background setting (src/background-boot.js). */
-  --bg: #111113;
-  --text: #8b8c8f;
-  --text-strong: #e9e9e7;
-  --ring: rgba(255, 255, 255, 0.18);
-  --focus: #6f93ff;
-  --font: 'Instrument Sans', system-ui, sans-serif;
-  /* Cinzel (Roman inscription capitals) for the names of the casts. */
-  --inscription: 'Cinzel', Georgia, serif;
-}
+/* The viewer. */
 
-/* On a light background, text and outlines turn dark. */
-.light-bg {
-  --text: #3d3e42;
-  --text-strong: #111113;
-  --ring: rgba(0, 0, 0, 0.25);
-}
-
-* {
-  box-sizing: border-box;
-}
+@import './base.css';
 
 html,
 body {
-  margin: 0;
   height: 100%;
   overflow: hidden;
-  background: var(--bg);
-  color: var(--text);
-  font: 400 13px/1.4 var(--font);
-  -webkit-font-smoothing: antialiased;
 }
 
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
+body {
+  font: 400 13px/1.4 var(--font);
 }
 
 .stage {
@@ -69,7 +44,7 @@ body {
   line-height: 1.25;
   font-weight: 500;
   letter-spacing: 0.03em;
-  color: var(--text-strong);
+  color: var(--strong);
 }
 
 .tagline {
@@ -85,7 +60,7 @@ body {
 }
 
 .back:hover {
-  color: var(--text-strong);
+  color: var(--strong);
 }
 
 .controls {
@@ -140,7 +115,7 @@ body {
   width: 12px;
   height: 12px;
   margin-left: -4px;
-  border: 1.5px solid var(--text-strong);
+  border: 1.5px solid var(--strong);
   border-radius: 50%;
   background: var(--bg);
 }
@@ -148,7 +123,7 @@ body {
 .bg-slider::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  border: 1.5px solid var(--text-strong);
+  border: 1.5px solid var(--strong);
   border-radius: 50%;
   background: var(--bg);
 }
@@ -183,8 +158,8 @@ body {
 .tool:hover,
 .tool[aria-pressed='true'],
 .tool.flash {
-  border-color: var(--text-strong);
-  color: var(--text-strong);
+  border-color: var(--strong);
+  color: var(--strong);
 }
 
 .tool:disabled {

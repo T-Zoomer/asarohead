@@ -1,44 +1,25 @@
 /* The About page. */
 
+@import './base.css';
+
+/* Body text a step brighter than elsewhere, for reading; --text stays the
+   quieter tone for meta lines and the back link. */
 :root {
-  --bg: #111113;
-  --text: #c9c9c6;
-  --muted: #8b8c8f;
-  --strong: #eeeeec;
-  --focus: #6f93ff;
-  --font: 'Instrument Sans', system-ui, sans-serif;
+  --prose: #c9c9c6;
 }
 
-/* The saved background setting sets --bg; on a light one, text turns dark. */
 .light-bg {
-  --text: #2c2d30;
-  --muted: #5a5b5f;
-  --strong: #111113;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  background: var(--bg);
+  --prose: #2c2d30;
 }
 
 body {
-  margin: 0;
-  color: var(--text);
+  color: var(--prose);
   font: 400 17px/1.7 var(--font);
-  -webkit-font-smoothing: antialiased;
-}
-
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
 }
 
 a {
   color: var(--strong);
-  text-decoration-color: var(--muted);
+  text-decoration-color: var(--text);
   text-underline-offset: 3px;
 }
 
@@ -49,13 +30,15 @@ a:hover {
 /* Matches the title on the home page. */
 .site {
   padding: 22px 24px;
+  text-align: center;
 }
 
 .site .home {
+  font-family: var(--inscription);
   font-size: 26px;
   line-height: 1.2;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.03em;
   color: var(--strong);
   text-decoration: none;
 }
@@ -79,7 +62,7 @@ h1 {
 .meta {
   margin: 0 0 40px;
   font-size: 14px;
-  color: var(--muted);
+  color: var(--text);
 }
 
 .lede {
@@ -109,7 +92,7 @@ li + li {
 }
 
 .back a {
-  color: var(--muted);
+  color: var(--text);
   text-decoration: none;
 }
 
