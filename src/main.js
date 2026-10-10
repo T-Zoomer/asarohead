@@ -193,7 +193,7 @@ if (model) {
     (e) => loader.progress(e.total ? e.loaded / e.total : null),
     (err) => {
       console.error(err);
-      loader.remove();
+      loader.finish();
       $('status').textContent = 'The model didn’t load. Check your connection and reload the page.';
     },
   );

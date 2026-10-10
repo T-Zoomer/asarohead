@@ -52,14 +52,8 @@ export function createLoader(el) {
       el.classList.toggle('indeterminate', fraction == null);
       ring.style.strokeDashoffset = String(100 - (fraction ?? 0) * 100);
     },
+    // Gone at once, so it never sits over the model.
     finish() {
-      el.classList.add('done');
-      setTimeout(() => {
-        running = false;
-        el.remove();
-      }, 600);
-    },
-    remove() {
       running = false;
       el.remove();
     },
